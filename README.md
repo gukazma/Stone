@@ -22,5 +22,5 @@ cd build
 
 cmake ..
 
-cmake --build ./ --config Release --target GU -j 10
+cmake --build ./ --config Release --target StoneEditor -j 10
 ```
