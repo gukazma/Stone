@@ -22,17 +22,7 @@ set(CMAKE_CXX_STANDARD 11)
 ### Eigen
 set(VCG_EIGEN_DIR ${CMAKE_CURRENT_LIST_DIR}/eigenlib)
 
-if(ALLOW_SYSTEM_EIGEN AND EIGEN3_INCLUDE_DIR)
-	message(STATUS "- Eigen - using system-provided library")
-	set(EIGEN_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
-elseif(ALLOW_BUNDLED_EIGEN AND EXISTS "${VCG_EIGEN_DIR}/Eigen/Eigen")
-	message(STATUS "- Eigen - using bundled source")
-	set(EIGEN_INCLUDE_DIRS ${VCG_EIGEN_DIR})
-else()
-	message(
-			FATAL_ERROR
-			"Eigen is required - at least one of ALLOW_SYSTEM_EIGEN or ALLOW_BUNDLED_EIGEN must be enabled and found.")
-endif()
+set(EIGEN_INCLUDE_DIRS ${VCG_EIGEN_DIR})
 
 ### VCGLib headers and sources
 
