@@ -1,5 +1,5 @@
 # Stone
-基于vcglib的Editor
+图形引擎Stone
 
 # clone
 ```bash
