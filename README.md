@@ -1,18 +1,18 @@
 # Stone
-图形引擎Stone
+Stone Engine
 
 # clone
 ```bash
 git clone https://github.com/StoneHappy/Stone.git --recursive
 ```
 
-## 依赖
-你需要通过vcpkg安装osg、qt5和spdlog
+## dependency
+Before building, install``qt5``和``qt-advanced-docking-system`` by ``vcpkg``
 ```bash
 vcpkg install qt5:x64-windows qt-advanced-docking-system:x64-windows
 ```
 
-## 构建方法
+## how to build
 ```bash
 cd Stone
 
@@ -20,7 +20,7 @@ mkdir build
 
 cd build 
 
-cmake ..
+cmake .. -DCMAKE_TOOLCHAIN_FILE=path to/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=your target triplet
 
 cmake --build ./ --config Release --target StoneEditor -j 10
 ```
