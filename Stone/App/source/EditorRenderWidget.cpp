@@ -8,7 +8,8 @@
 #include <Function/Scene/EditCamera.h>
 #include <qelapsedtimer.h>
 #include <qevent.h>
-
+#include <QtImGui.h>
+#include <imgui.h>
 
 namespace Stone
 {
@@ -23,6 +24,7 @@ namespace Stone
 	{
         PublicSingleton<Engine>::getInstance().renderInitialize();
         PublicSingleton<Engine>::getInstance().logicalInitialize();
+        QtImGui::initialize(this);
 	}
 
 	void EditorRendererWidget::resizeGL(int w, int h)
@@ -39,6 +41,15 @@ namespace Stone
         PublicSingleton<Engine>::getInstance().renderTick(defaultFramebufferObject());
         update();
         PublicSingleton<Engine>::getInstance().DeltaTime = timer.nsecsElapsed()* 1.0e-9f;
+
+        QtImGui::newFrame();
+
+        ImGui::Text("Hello");
+        float aaa = 0.0f;
+        ImGui::DragFloat("aaa", &aaa);
+
+        ImGui::Render();
+        QtImGui::render();
 	}
 
 

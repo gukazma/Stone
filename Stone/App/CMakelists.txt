@@ -25,6 +25,7 @@ target_link_libraries(${TARGET_NAME}
           Qt5::Widgets
           Qt5::OpenGL
           ads::qtadvanceddocking
+          qt_imgui_widgets
 )
 
 target_include_directories(
