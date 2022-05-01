@@ -18,4 +18,8 @@ namespace Stone
 		m_Mainwindow = new MainWindow;
 		m_Mainwindow->showMaximized();
 	}
+	void EditorUI::tick()
+	{
+		
+	}
 }

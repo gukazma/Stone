@@ -27,14 +27,14 @@ namespace Stone
     void Engine::logicalTick()
     {
         PublicSingleton<EventSystem>::getInstance().processEvents();
+        m_UISurface->tick();
     }
     void Engine::renderTick(uint32_t defaultFramebufferid)
-    {
+    { 
         PublicSingleton<Renderer>::getInstance().begin();
         PublicSingleton<Scene>::getInstance().renderTick();
-        PublicSingleton<ShaderPool>::getInstance().get("MeshShader")->bind();
-        _texture->bind(0);
-        PublicSingleton<Renderer>::getInstance().render(vcgmesh);
+        //_texture->bind(0);
+        //PublicSingleton<Renderer>::getInstance().render(vcgmesh);
 
         PublicSingleton<Renderer>::getInstance().end(defaultFramebufferid);
     }
@@ -43,7 +43,6 @@ namespace Stone
     {
         PublicSingleton<Renderer>::getInstance().initialize();
         PublicSingleton<Scene>::getInstance().initialize();
-        vcgmesh = new VCGMesh("D:/datas/ply/scene_mesh_refine.ply");
         _texture = Texture2D::create("D:/datas/ply/tayv6_2K_Albedo.png");
     }
     void Engine::logicalInitialize()

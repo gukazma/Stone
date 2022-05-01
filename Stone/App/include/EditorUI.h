@@ -11,6 +11,8 @@ namespace Stone
 		EditorUI();
 		~EditorUI();
 		void run() override;
+
+		void tick() override;
 	private:
 		MainWindow* m_Mainwindow;
 		std::shared_ptr<FrameBuffer> m_FrameBuffer = nullptr;

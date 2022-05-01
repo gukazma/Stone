@@ -16,6 +16,8 @@ namespace Stone
     public:
         MainWindow(QWidget* parent = nullptr);
         ~MainWindow();
+    public Q_SLOTS:
+        void importMesh();
 
     private:
         Ui::MainWindow* ui;

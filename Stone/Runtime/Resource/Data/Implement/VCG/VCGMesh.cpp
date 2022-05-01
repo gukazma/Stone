@@ -42,7 +42,6 @@ namespace Stone
                 }
             }
         }
-        updateBuffer();
     }
     void VCGMesh::read(const std::string& filename)
     {

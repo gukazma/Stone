@@ -22,6 +22,7 @@ namespace Stone
     public:
         Mesh(const std::string& path);
         virtual void update();
+        virtual void updateBuffer() {}
         virtual ~Mesh();
     public:
         std::shared_ptr<VertexArray> m_VAO = nullptr;

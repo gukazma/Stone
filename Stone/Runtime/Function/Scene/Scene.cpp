@@ -4,8 +4,14 @@
 #include "Function/Event/EventSystem.h"
 #include "Function/Scene/EditCamera.h"
 #include "Function/Scene/Light.h"
-
 #include "Function/Scene/Material.h"
+
+#include "Resource/Components/Mesh.h"
+#include "Resource/Components/Tag.h"
+#include "Resource/Data/Implement/VCG/VCGMesh.h"
+
+#include "Function/Render/Interface/Renderer.h"
+#include "Function/Render/Interface/Shader.h"
 namespace Stone
 {
 	Scene::Scene()
@@ -17,6 +23,13 @@ namespace Stone
 		m_CurrentCamera->bind();
 		PublicSingletonInstance(GLobalLight).bind(1);
 		PublicSingletonInstance(MaterialPool).getMaterial("BasicMaterial")->bind(2);
+		PublicSingleton<ShaderPool>::getInstance().get("MeshShader")->bind();
+		auto view = m_Registry.view<MeshComponent<VCGMesh>>();
+		for (auto entity : view)
+		{
+			auto mesh = view.get<MeshComponent<VCGMesh>>(entity);
+			PublicSingleton<Renderer>::getInstance().render(mesh.m_Mesh);
+		}
 	}
 	void Scene::initialize()
 	{

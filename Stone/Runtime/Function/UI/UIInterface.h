@@ -6,5 +6,7 @@ namespace Stone
     {
     public:
         virtual void run() {}
+
+        virtual void tick() {}
     };
 }

@@ -8,6 +8,8 @@
 #include <Function/Scene/EditCamera.h>
 #include <qelapsedtimer.h>
 #include <qevent.h>
+
+
 namespace Stone
 {
 	EditorRendererWidget::EditorRendererWidget(QWidget* parent)
@@ -78,5 +80,7 @@ namespace Stone
         m_MouseAngle->y = event->angleDelta().y();
         PublicSingletonInstance(EventSystem).sendEvent("EditCamera_Zoom", (void*)m_MouseAngle.get());
     }
+
+
     
 }

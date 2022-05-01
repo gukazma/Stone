@@ -1,19 +1,20 @@
 #pragma once
 #include <string>
-#include "Resource/Data/VCGMesh.h"
+
+#include "Resource/Data/Interface/Mesh.h"
+#include "Resource/Data/Implement/VCG/VCGMesh.h"
 namespace Stone
 {
-    struct VCGMeshComponent
+    template<typename T>
+    class MeshComponent
     {
-        VCGMeshComponent()
-            : m_Mesh(new VCGMesh())
+    public:
+        MeshComponent(const std::string& filename)
+            : m_Mesh(new T(filename))
         {}
-        VCGMeshComponent(const std::string& filename)
-            : m_Mesh(new VCGMesh())
-        {
-            m_Mesh->ReadFile(filename);
-            m_Mesh->Update();
-        }
-        VCGMesh* m_Mesh;
+
+        ~MeshComponent() {  }
+        
+        T* m_Mesh;
     };
 } // namespace kanjing

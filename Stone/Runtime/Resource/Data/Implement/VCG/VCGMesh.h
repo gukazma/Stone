@@ -33,10 +33,10 @@ namespace Stone
     public:
         VCGMesh(const std::string& filename);
         void update() override;
+        void updateBuffer() override;
 
     private:
         void read(const std::string& filename);
-        void updateBuffer();
     };
 
 } // namespace kanjing

@@ -2,6 +2,8 @@
 #include "Function/Scene/EditCamera.h"
 
 #include "Function/Render/Implement/OpenGL/OpenGLRenderer.h"
+
+#include "Resource/Data/Interface/Mesh.h"
 #include <glad/glad.h>
 namespace Stone
 {
@@ -21,8 +23,9 @@ namespace Stone
 	{
 		m_RendererImp->end(defaultFramebuffer);
 	}
-	void Renderer::render(const Mesh* mesh)
+	void Renderer::render(Mesh* mesh)
 	{
+		mesh->updateBuffer();
 		m_RendererImp->render(mesh);
 	}
 
