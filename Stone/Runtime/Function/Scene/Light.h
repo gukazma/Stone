@@ -18,8 +18,8 @@ namespace Stone
         void bind(uint32_t index = 0);
         void updateBuffer();
         
-    private:
         UniformBlock m_BlockData;
+    private:
         std::shared_ptr<UniformBuffer> m_UniformBuffer;
     };
 }

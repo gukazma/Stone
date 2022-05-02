@@ -11,6 +11,7 @@
 #include <QtImGui.h>
 #include <imgui.h>
 
+#include <Function/Scene/Light.h>
 namespace Stone
 {
 	EditorRendererWidget::EditorRendererWidget(QWidget* parent)
@@ -46,8 +47,11 @@ namespace Stone
 
         ImGui::Text("Hello");
         float aaa = 0.0f;
-        ImGui::DragFloat("aaa", &aaa);
-
+        ImGui::DragFloat3("Light Pos", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.Position));
+        ImGui::DragFloat3("Light AmbientColor", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.AmbientColor), 0.1f, 0.0f, 1.0f);
+        ImGui::DragFloat3("Light DiffuseColor", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.DiffuseColor), 0.1f, 0.0f, 1.0f);
+        ImGui::DragFloat3("Light SpecularColor", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.SpecularColor), 0.1f, 0.0f, 1.0f);
+        PublicSingletonInstance(GLobalLight).updateBuffer();
         ImGui::Render();
         QtImGui::render();
 	}
@@ -55,9 +59,13 @@ namespace Stone
 
     void EditorRendererWidget::mousePressEvent(QMouseEvent* event)
     {
-        m_MousePos->x = event->pos().x();
-        m_MousePos->y = -event->pos().y();
-        PublicSingletonInstance(EventSystem).sendEvent("EditCamera_Begin", (void*)m_MousePos.get());
+        QKeyEvent* e = (QKeyEvent*)event;
+        if (e->modifiers() == Qt::ShiftModifier)
+        {
+            m_MousePos->x = event->pos().x();
+            m_MousePos->y = -event->pos().y();
+            PublicSingletonInstance(EventSystem).sendEvent("EditCamera_Begin", (void*)m_MousePos.get());
+        }
     }
 
     void EditorRendererWidget::mouseDoubleClickEvent(QMouseEvent* event)
@@ -66,23 +74,32 @@ namespace Stone
 
     void EditorRendererWidget::mouseMoveEvent(QMouseEvent* event)
     {
-        m_MousePos->x = -event->pos().x();
-        m_MousePos->y = event->pos().y();
-        if (event->buttons() & Qt::LeftButton)
+        QKeyEvent* e = (QKeyEvent*)event;
+        if (e->modifiers() == Qt::ShiftModifier)
         {
-            
-            PublicSingletonInstance(EventSystem).sendEvent("EditCamera_Rotate", (void*)m_MousePos.get());
-        }
-        else if (event->buttons() & Qt::MiddleButton)
-        {
+            m_MousePos->x = -event->pos().x();
+            m_MousePos->y = event->pos().y();
+            if (event->buttons() & Qt::LeftButton)
+            {
 
-            PublicSingletonInstance(EventSystem).sendEvent("EditCamera_Pan", (void*)m_MousePos.get());
+                PublicSingletonInstance(EventSystem).sendEvent("EditCamera_Rotate", (void*)m_MousePos.get());
+            }
+            else if (event->buttons() & Qt::MiddleButton)
+            {
+
+                PublicSingletonInstance(EventSystem).sendEvent("EditCamera_Pan", (void*)m_MousePos.get());
+            }
         }
+        
     }
 
     void EditorRendererWidget::mouseReleaseEvent(QMouseEvent* event)
     {
-        PublicSingletonInstance(EventSystem).sendEvent("EditCamera_End", (void*)m_MousePos.get());
+        QKeyEvent* e = (QKeyEvent*)event;
+        if (e->modifiers() == Qt::ShiftModifier)
+        {
+            PublicSingletonInstance(EventSystem).sendEvent("EditCamera_End", (void*)m_MousePos.get());
+        }
     }
 
     void EditorRendererWidget::wheelEvent(QWheelEvent* event)
