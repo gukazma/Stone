@@ -24,3 +24,6 @@ cmake .. -DCMAKE_TOOLCHAIN_FILE=path to/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=your 
 
 cmake --build ./ --config Release --target StoneEditor -j 10
 ```
+
+## screenshot
+![](doscs/imgs/screenshot.png)

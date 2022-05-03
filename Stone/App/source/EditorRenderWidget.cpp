@@ -55,11 +55,14 @@ namespace Stone
         width = geom.width();
         height = geom.height();
         ImGuizmo::SetRect(x, y, width, height);
-        auto view = PublicSingletonInstance(EditorCamera).getViewMatrix();
-        auto proj =  PublicSingletonInstance(EditorCamera).getProjMatrix();
+        auto& view = PublicSingletonInstance(EditorCamera).getViewMatrix();
+        auto& proj =  PublicSingletonInstance(EditorCamera).getProjMatrix();
         glm::mat4 testMatrix = glm::mat4(1);
-        ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj),
-            ImGuizmo::OPERATION::ROTATE, ImGuizmo::LOCAL, glm::value_ptr(testMatrix));
+
+        ImGuizmo::DrawGrid(glm::value_ptr(view), glm::value_ptr(proj), glm::value_ptr(testMatrix), 100.f);
+        ImGuizmo::ViewManipulate(glm::value_ptr(view), 8.f, ImVec2(x + width - 128, 0), ImVec2(128, 128), 0x10101010);
+        PublicSingletonInstance(EditorCamera).updateBuffer();
+        ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj), ImGuizmo::OPERATION::ROTATE, ImGuizmo::LOCAL, glm::value_ptr(testMatrix));
         ImGui::Text("Hello");
         float aaa = 0.0f;
         ImGui::DragFloat3("Light Pos", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.Position));

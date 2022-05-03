@@ -39,8 +39,8 @@ namespace Stone
 		void genProjMat();
 		void updateBuffer();
 
-		const glm::mat4& getViewMatrix() { return m_View; }
-		const glm::mat4& getProjMatrix() { return m_Proj; }
+		glm::mat4& getViewMatrix() { return m_View; }
+		glm::mat4& getProjMatrix() { return m_Proj; }
 
     private:
 		glm::vec2 m_InitialMousePosition = { 0.0, 0.0 };
