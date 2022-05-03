@@ -36,7 +36,7 @@ namespace Stone
     void MainWindow::importMesh()
     {
         auto testMesh = PublicSingletonInstance(Scene).CreateObject("testMesh");
-        testMesh.AddComponent<MeshComponent<VCGMesh>>("D:/datas/ply/scene_mesh_refine.ply");
+        testMesh.AddComponent<MeshComponent<VCGMesh>>("D:/datas/ply/shan.ply");
     }
 }
 
