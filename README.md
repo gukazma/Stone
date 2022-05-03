@@ -1,4 +1,4 @@
-# Stone
+# Stone[![License](https://img.shields.io/github/license/StoneHappy/Stone.svg)](https://github.com/StoneHappy/Stone/blob/master/LICENSE)
 Stone Engine
 
 # clone
