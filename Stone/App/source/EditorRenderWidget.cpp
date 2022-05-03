@@ -10,8 +10,9 @@
 #include <qevent.h>
 #include <QtImGui.h>
 #include <imgui.h>
-
+#include <ImGuizmo.h>
 #include <Function/Scene/Light.h>
+#include <glm/gtc/type_ptr.hpp>
 namespace Stone
 {
 	EditorRendererWidget::EditorRendererWidget(QWidget* parent)
@@ -44,7 +45,21 @@ namespace Stone
         PublicSingleton<Engine>::getInstance().DeltaTime = timer.nsecsElapsed()* 1.0e-9f;
 
         QtImGui::newFrame();
+        ImGuizmo::BeginFrame();
 
+        ImGuizmo::SetOrthographic(false);
+        int x, y, width, height;
+        const QRect& geom = this->geometry();
+        x = geom.x();
+        y = geom.y();
+        width = geom.width();
+        height = geom.height();
+        ImGuizmo::SetRect(x, y, width, height);
+        auto view = PublicSingletonInstance(EditorCamera).getViewMatrix();
+        auto proj =  PublicSingletonInstance(EditorCamera).getProjMatrix();
+        glm::mat4 testMatrix = glm::mat4(1);
+        ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj),
+            ImGuizmo::OPERATION::ROTATE, ImGuizmo::LOCAL, glm::value_ptr(testMatrix));
         ImGui::Text("Hello");
         float aaa = 0.0f;
         ImGui::DragFloat3("Light Pos", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.Position));

@@ -43,7 +43,7 @@ namespace Stone
     {
         PublicSingleton<Renderer>::getInstance().initialize();
         PublicSingleton<Scene>::getInstance().initialize();
-        _texture = Texture2D::create("D:/datas/ply/tayv6_2K_Albedo.png");
+        //_texture = Texture2D::create("D:/datas/ply/tayv6_2K_Albedo.png");
     }
     void Engine::logicalInitialize()
     {
