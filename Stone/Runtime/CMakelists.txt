@@ -23,6 +23,7 @@ target_link_libraries(${TARGET_NAME} PUBLIC
           vcglib
           vcgwrap
           stb
+          Recast
           )
 
 target_include_directories(

@@ -60,7 +60,7 @@ namespace Stone
         glm::mat4 testMatrix = glm::mat4(1);
 
         ImGuizmo::DrawGrid(glm::value_ptr(view), glm::value_ptr(proj), glm::value_ptr(testMatrix), 100.f);
-        ImGuizmo::ViewManipulate(glm::value_ptr(view), 8.f, ImVec2(x + width - 128, 0), ImVec2(128, 128), 0x10101010);
+        ImGuizmo::ViewManipulate(glm::value_ptr(view), 8.f, ImVec2(x + width - width*0.1, 0), ImVec2(width*0.1, width*0.1), 0x10101010);
         PublicSingletonInstance(EditorCamera).updateBuffer();
         ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj), ImGuizmo::OPERATION::ROTATE, ImGuizmo::LOCAL, glm::value_ptr(testMatrix));
         ImGui::Text("Hello");
