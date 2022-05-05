@@ -41,37 +41,9 @@ namespace Stone
         timer.start();
         PublicSingleton<Engine>::getInstance().logicalTick();
         PublicSingleton<Engine>::getInstance().renderTick(defaultFramebufferObject());
+        renderImGui();
         update();
         PublicSingleton<Engine>::getInstance().DeltaTime = timer.nsecsElapsed()* 1.0e-9f;
-
-        QtImGui::newFrame();
-        ImGuizmo::BeginFrame();
-
-        ImGuizmo::SetOrthographic(false);
-        int x, y, width, height;
-        const QRect& geom = this->geometry();
-        x = geom.x();
-        y = geom.y();
-        width = geom.width();
-        height = geom.height();
-        ImGuizmo::SetRect(x, y, width, height);
-        auto& view = PublicSingletonInstance(EditorCamera).getViewMatrix();
-        auto& proj =  PublicSingletonInstance(EditorCamera).getProjMatrix();
-        glm::mat4 testMatrix = glm::mat4(1);
-
-        ImGuizmo::DrawGrid(glm::value_ptr(view), glm::value_ptr(proj), glm::value_ptr(testMatrix), 100.f);
-        ImGuizmo::ViewManipulate(glm::value_ptr(view), 8.f, ImVec2(x + width - width*0.1, 0), ImVec2(width*0.1, width*0.1), 0x10101010);
-        PublicSingletonInstance(EditorCamera).updateBuffer();
-        ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj), ImGuizmo::OPERATION::ROTATE, ImGuizmo::LOCAL, glm::value_ptr(testMatrix));
-        ImGui::Text("Hello");
-        float aaa = 0.0f;
-        ImGui::DragFloat3("Light Pos", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.Position));
-        ImGui::DragFloat3("Light AmbientColor", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.AmbientColor), 0.1f, 0.0f, 1.0f);
-        ImGui::DragFloat3("Light DiffuseColor", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.DiffuseColor), 0.1f, 0.0f, 1.0f);
-        ImGui::DragFloat3("Light SpecularColor", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.SpecularColor), 0.1f, 0.0f, 1.0f);
-        PublicSingletonInstance(GLobalLight).updateBuffer();
-        ImGui::Render();
-        QtImGui::render();
 	}
 
 
@@ -127,6 +99,33 @@ namespace Stone
         PublicSingletonInstance(EventSystem).sendEvent("EditCamera_Zoom", (void*)m_MouseAngle.get());
     }
 
-
+    void EditorRendererWidget::renderImGui()
+    {
+        QtImGui::newFrame();
+        ImGuizmo::BeginFrame();
+        ImGuizmo::SetOrthographic(false);
+        int x, y, width, height;
+        const QRect& geom = this->geometry();
+        x = geom.x();
+        y = geom.y();
+        width = geom.width();
+        height = geom.height();
+        ImGuizmo::SetRect(x, y, width, height);
+        auto& view = PublicSingletonInstance(EditorCamera).getViewMatrix();
+        auto& proj = PublicSingletonInstance(EditorCamera).getProjMatrix();
+        glm::mat4 testMatrix = glm::mat4(1);
+        ImGuizmo::ViewManipulate(glm::value_ptr(view), 8.f, ImVec2(x + width - width * 0.1, 0), ImVec2(width * 0.1, width * 0.1), 0x10101010);
+        PublicSingletonInstance(EditorCamera).updateBuffer();
+        ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj), ImGuizmo::OPERATION::ROTATE, ImGuizmo::LOCAL, glm::value_ptr(testMatrix));
+        ImGui::Text("Hello");
+        float aaa = 0.0f;
+        ImGui::DragFloat3("Light Pos", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.Position));
+        ImGui::DragFloat3("Light AmbientColor", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.AmbientColor), 0.1f, 0.0f, 1.0f);
+        ImGui::DragFloat3("Light DiffuseColor", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.DiffuseColor), 0.1f, 0.0f, 1.0f);
+        ImGui::DragFloat3("Light SpecularColor", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.SpecularColor), 0.1f, 0.0f, 1.0f);
+        PublicSingletonInstance(GLobalLight).updateBuffer();
+        ImGui::Render();
+        QtImGui::render();
+    }
     
 }
