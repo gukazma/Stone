@@ -25,14 +25,14 @@ namespace Stone
 		void setFarClipDist(const float d);
 		inline void setViewportSize(float width, float height) { m_ViewportWidth = width; m_ViewportHeight = height; genProjMat();updateBuffer();}
 		// Get attitude
-		glm::quat EditorCamera::getOrientation() const;
-		glm::vec3 EditorCamera::getForwardDirection() const;
-		glm::vec3 EditorCamera::getRightDirection() const;
-		glm::vec3 EditorCamera::getUpDirection() const;
-		glm::vec3 EditorCamera::calculatePosition();
+		glm::quat getOrientation() const;
+		glm::vec3 getForwardDirection() const;
+		glm::vec3 getRightDirection() const;
+		glm::vec3 getUpDirection() const;
+		glm::vec3 calculatePosition();
 
-		void EditorCamera::zoom(float delta);
-		float EditorCamera::zoomSpeed() const;
+		void zoom(float delta);
+		float zoomSpeed() const;
 
 		//Create matrices
 		void genViewMat();
@@ -71,7 +71,7 @@ namespace Stone
 
 		void rotate(glm::vec2 delta);
 		void pan(glm::vec2 delta);
-		std::pair<float, float> EditorCamera::panSpeed() const;
+		std::pair<float, float> panSpeed() const;
 
 		bool m_Begin = false;
 		void begin(Event* event);
