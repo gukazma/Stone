@@ -9,20 +9,7 @@ layout (location = 3) in flat vec3 in_CameraPos;
 layout(std140, binding = 1) uniform LightBlock
 {
 	vec3 u_LightPos;
-    vec3 u_LightAmbientColor;
-    vec3 u_LightDiffuseColor;
-    vec3 u_LightSpecularColor;
 };
-
-
-layout(std140, binding = 2) uniform MaterialBlock
-{
-	vec3	u_MaterialAmbient;
-	vec3	u_MaterialDiffuse;
-	vec3	u_MaterialSpecular;
-	float	u_MaterialShininess;
-};
-
 layout (binding = 0) uniform sampler2D simple;
 
 void main()
@@ -58,7 +45,7 @@ void main()
 	float RdotV = dot(rVector, viewVector);
 	
 	if (RdotV > 0.0)
-		specular = ks * pow(RdotV, u_MaterialShininess);
+		specular = ks * pow(RdotV, 0.6);
 
 	FragColor = ambient + diffuse + specular;
 }
