@@ -20,6 +20,7 @@ namespace Stone
     class Mesh
     {
     public:
+        Mesh() = default;
         Mesh(const std::string& path);
         virtual void update();
         virtual void updateBuffer() {}

@@ -31,9 +31,12 @@ namespace Stone
     public:
         BaseTriMesh m_Mesh;
     public:
+        VCGMesh() = default;
         VCGMesh(const std::string& filename);
-        void update() override;
-        void updateBuffer() override;
+        virtual void update() override;
+        virtual void updateBuffer() override;
+
+        virtual ~VCGMesh() = default;
 
     private:
         void read(const std::string& filename);
