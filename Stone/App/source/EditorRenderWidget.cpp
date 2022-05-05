@@ -120,9 +120,6 @@ namespace Stone
         ImGui::Text("Hello");
         float aaa = 0.0f;
         ImGui::DragFloat3("Light Pos", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.Position));
-        ImGui::DragFloat3("Light AmbientColor", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.AmbientColor), 0.1f, 0.0f, 1.0f);
-        ImGui::DragFloat3("Light DiffuseColor", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.DiffuseColor), 0.1f, 0.0f, 1.0f);
-        ImGui::DragFloat3("Light SpecularColor", (float*)&(PublicSingletonInstance(GLobalLight).m_BlockData.SpecularColor), 0.1f, 0.0f, 1.0f);
         PublicSingletonInstance(GLobalLight).updateBuffer();
         ImGui::Render();
         QtImGui::render();

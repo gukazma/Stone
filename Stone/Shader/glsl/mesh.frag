@@ -27,21 +27,38 @@ layout (binding = 0) uniform sampler2D simple;
 
 void main()
 {
-    // ambient
-    vec3 ambient = u_LightAmbientColor * u_MaterialAmbient;
-  	
-    // diffuse 
-    vec3 norm = normalize(in_Normal);
-    vec3 lightDir = normalize(u_LightPos - in_Pos);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = u_MaterialDiffuse * (diff * u_MaterialDiffuse);
-    
-    // specular
-    vec3 viewDir = normalize(in_CameraPos - in_Pos);
-    vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_MaterialShininess);
-    vec3 specular = u_LightSpecularColor * (spec * u_MaterialSpecular);  
-        
-    vec3 result = ambient + diffuse + specular;
-    FragColor = vec4(result, 1.0) * texture(simple, in_TexCoord);
+    vec3 n = normalize(in_Normal);
+	vec4 diffuse = vec4(0.0);
+	vec4 specular = vec4(0.0);
+	
+	// the material properties are embedded in the shader (for now)
+	vec4 mat_ambient = vec4(1.0, 1.0, 1.0, 1.0);
+	vec4 mat_diffuse = vec4(1.0, 1.0, 1.0, 1.0);
+	vec4 mat_specular = vec4(1.0, 1.0, 1.0, 1.0);
+	
+	// ambient term
+	vec4 ambient = mat_ambient * 0.4;
+	
+	// diffuse color
+	vec4 kd = mat_diffuse * 0.6;
+	
+	// specular color
+	vec4 ks = mat_specular * 0.1;
+	
+	// diffuse term
+	vec3 lightDir = normalize(u_LightPos - in_Pos);
+	float NdotL = dot(n, lightDir);
+	
+	if (NdotL > 0.0)
+		diffuse = kd * NdotL;
+	
+	// specular term
+	vec3 rVector = normalize(2.0 * n * dot(n, lightDir) - lightDir);
+	vec3 viewVector = normalize(-in_Pos);
+	float RdotV = dot(rVector, viewVector);
+	
+	if (RdotV > 0.0)
+		specular = ks * pow(RdotV, u_MaterialShininess);
+
+	FragColor = ambient + diffuse + specular;
 }

@@ -10,9 +10,6 @@ namespace Stone
         struct  UniformBlock
         {
             glm::vec3 Position = { 0.0f, -10.0f, 0.0f };
-            glm::vec3 AmbientColor = { 1.0f, 1.0f, 1.0f };
-            glm::vec3 DiffuseColor = { 1.0f, 1.0f, 1.0f };
-            glm::vec3 SpecularColor = { 1.0f, 1.0f, 1.0f };
         };
         GLobalLight();
         void bind(uint32_t index = 0);
