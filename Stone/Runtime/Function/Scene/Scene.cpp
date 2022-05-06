@@ -8,6 +8,7 @@
 
 #include "Resource/Components/Mesh.h"
 #include "Resource/Components/Tag.h"
+#include "Resource/Components/Transform.h"
 #include "Resource/Data/Implement/VCG/VCGMesh.h"
 
 #include "Function/Render/Interface/Renderer.h"
@@ -24,10 +25,11 @@ namespace Stone
 		PublicSingletonInstance(GLobalLight).bind(1);
 		PublicSingletonInstance(MaterialPool).getMaterial("BasicMaterial")->bind(2);
 		PublicSingleton<ShaderPool>::getInstance().get("MeshShader")->bind();
-		auto view = m_Registry.view<MeshComponent<VCGMesh>>();
+		auto view = m_Registry.view<MeshComponent<VCGMesh>, TransformComponent>();
 		for (auto entity : view)
 		{
-			auto mesh = view.get<MeshComponent<VCGMesh>>(entity);
+			auto& [mesh, transform] = view.get<MeshComponent<VCGMesh>, TransformComponent>(entity);
+			transform.bind();
 			PublicSingleton<Renderer>::getInstance().render(mesh.m_Mesh);
 		}
 	}

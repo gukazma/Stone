@@ -8,6 +8,8 @@
 #include <Function/Scene/Scene.h>
 #include <Resource/Components/Mesh.h>
 #include <Resource/Data/Implement/VCG/VCGMesh.h>
+
+#include <Resource/Components/Transform.h>
 namespace Stone
 {
     MainWindow::MainWindow(QWidget* parent)
@@ -37,6 +39,7 @@ namespace Stone
     {
         auto testMesh = PublicSingletonInstance(Scene).CreateObject("testMesh");
         testMesh.AddComponent<MeshComponent<VCGMesh>>("D:/datas/ply/scene_mesh_refine.ply");
+        testMesh.AddComponent<TransformComponent>();
     }
 }
 
