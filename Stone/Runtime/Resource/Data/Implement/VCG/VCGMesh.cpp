@@ -81,9 +81,15 @@ namespace Stone
         {
             LOG_ERROR("Editor can't suport format :{0}", extendName);
         }
+
+        m_NeedUpdateBuffer = true;
     }
     void VCGMesh::updateBuffer()
     {
+        if (!m_NeedUpdateBuffer)
+        {
+            return;
+        }
         if (m_VAO == nullptr|| m_VBO == nullptr || m_EBO == nullptr)
         {
             m_VAO = VertexArray::create();
@@ -101,6 +107,8 @@ namespace Stone
         {
             m_VBO->setData((void*)m_V.data(), sizeof(float) * m_V.size() * 8);
         }
+
+        m_NeedUpdateBuffer = false;
     }
     
 }

@@ -38,6 +38,8 @@ namespace Stone
 
         virtual ~VCGMesh() = default;
 
+        bool m_NeedUpdateBuffer = true;
+
     private:
         void read(const std::string& filename);
     };
