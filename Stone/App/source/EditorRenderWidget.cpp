@@ -6,6 +6,10 @@
 #include <Function/Render/Interface/Renderer.h>
 #include <Function/Event/EventSystem.h>
 #include <Function/Scene/EditCamera.h>
+#include <Function/Scene/Scene.h>
+#include <Resource/Components/Mesh.h>
+#include <Resource/Components/Transform.h>
+#include <Resource/Data/Implement/VCG/VCGMesh.h>
 #include <qelapsedtimer.h>
 #include <qevent.h>
 #include <QtImGui.h>
@@ -124,5 +128,13 @@ namespace Stone
         ImGui::Render();
         QtImGui::render();
     }
-    
+    void EditorRendererWidget::importMesh(const std::string filename)
+    {
+        auto pointPos = filename.find_last_of(".");
+        auto lPos = filename.find_last_of("/");
+        std::string meshName = filename.substr(lPos + 1, pointPos - 1 - lPos);
+        auto testMesh = PublicSingletonInstance(Scene).CreateObject(meshName);
+        testMesh.AddComponent<MeshComponent<VCGMesh>>(filename);
+        testMesh.AddComponent<TransformComponent>();
+    }
 }

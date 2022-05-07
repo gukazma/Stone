@@ -27,6 +27,8 @@ namespace Stone
 
 		std::shared_ptr<MousePos> m_MousePos;
 		std::shared_ptr<MouseAngle> m_MouseAngle;
+
+		void importMesh(const std::string filename);
 	private:
 		void renderImGui();
 	};

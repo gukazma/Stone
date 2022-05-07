@@ -4,12 +4,8 @@
 #include <QTimer>
 #include "EditorRenderWidget.h"
 #include <iostream>
+#include <qfiledialog.h>
 
-#include <Function/Scene/Scene.h>
-#include <Resource/Components/Mesh.h>
-#include <Resource/Data/Implement/VCG/VCGMesh.h>
-
-#include <Resource/Components/Transform.h>
 namespace Stone
 {
     MainWindow::MainWindow(QWidget* parent)
@@ -37,9 +33,10 @@ namespace Stone
 
     void MainWindow::importMesh()
     {
-        auto testMesh = PublicSingletonInstance(Scene).CreateObject("testMesh");
-        testMesh.AddComponent<MeshComponent<VCGMesh>>("D:/datas/ply/scene_mesh_refine.ply");
-        testMesh.AddComponent<TransformComponent>();
+        QString fileName = QFileDialog::getOpenFileName(this, tr("open file"), "", tr("obj model (*.obj)"
+            ";;ply model (*.ply)"
+        ));
+        m_RendererWidget->importMesh(fileName.toStdString());
     }
 }
 
