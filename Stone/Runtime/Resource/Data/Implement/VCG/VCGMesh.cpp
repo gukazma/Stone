@@ -42,6 +42,8 @@ namespace Stone
                 }
             }
         }
+
+        m_NeedUpdateBuffer = true;
     }
     void VCGMesh::read(const std::string& filename)
     {
@@ -82,7 +84,6 @@ namespace Stone
             LOG_ERROR("Editor can't suport format :{0}", extendName);
         }
 
-        m_NeedUpdateBuffer = true;
     }
     void VCGMesh::updateBuffer()
     {
