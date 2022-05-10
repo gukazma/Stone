@@ -157,7 +157,9 @@ namespace Stone
 	}
 	void EditorCamera::pan(glm::vec2 delta)
 	{
-		auto [xSpeed, ySpeed] = panSpeed();
+		//auto [xSpeed, ySpeed] = panSpeed();
+		float xSpeed = 0.1;
+		float ySpeed = 0.1;
 		m_FocalPoint -= -getRightDirection() * delta.x * xSpeed * m_Distance * 10.0f;
 		m_FocalPoint += getUpDirection() * delta.y * ySpeed * m_Distance * 10.0f;
 	}
@@ -215,7 +217,7 @@ namespace Stone
 	void EditorCamera::zoom(float delta)
 	{
 		delta = delta > 0 ? 0.1 : -0.1;
-		m_Distance -= delta * zoomSpeed();
+		m_Distance -= delta * 10.0;
 		/*if (m_Distance < 1.0f)
 		{
 			m_FocalPoint += getForwardDirection();
