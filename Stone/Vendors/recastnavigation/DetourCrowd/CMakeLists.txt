@@ -1,5 +1,6 @@
 file(GLOB SOURCES Source/*.cpp)
-add_library(DetourCrowd ${SOURCES})
+file(GLOB INCLUDES Include/*.h)
+add_library(DetourCrowd ${SOURCES} ${INCLUDES})
 
 add_library(RecastNavigation::DetourCrowd ALIAS DetourCrowd)
 set_target_properties(DetourCrowd PROPERTIES DEBUG_POSTFIX -d)
@@ -28,7 +29,6 @@ install(TARGETS DetourCrowd
         COMPONENT library
         )
 
-file(GLOB INCLUDES Include/*.h)
 install(FILES ${INCLUDES} DESTINATION
     ${CMAKE_INSTALL_INCLUDEDIR}/recastnavigation)
 if(MSVC)

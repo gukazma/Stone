@@ -1,5 +1,6 @@
 file(GLOB SOURCES Source/*.cpp)
-add_library(Recast ${SOURCES})
+file(GLOB INCLUDES Include/*.h)
+add_library(Recast ${SOURCES} ${INCLUDES})
 
 add_library(RecastNavigation::Recast ALIAS Recast)
 set_target_properties(Recast PROPERTIES DEBUG_POSTFIX -d)
@@ -24,7 +25,6 @@ install(TARGETS Recast
         COMPONENT library
         )
 
-file(GLOB INCLUDES Include/*.h)
 install(FILES ${INCLUDES} DESTINATION
     ${CMAKE_INSTALL_INCLUDEDIR}/recastnavigation)
 if(MSVC)

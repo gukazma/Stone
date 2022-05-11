@@ -1,5 +1,7 @@
 file(GLOB SOURCES Source/*.cpp)
-add_library(DetourTileCache ${SOURCES})
+file(GLOB INCLUDES Include/*.h)
+
+add_library(DetourTileCache ${SOURCES} ${INCLUDES})
 
 add_library(RecastNavigation::DetourTileCache ALIAS DetourTileCache)
 set_target_properties(DetourTileCache PROPERTIES DEBUG_POSTFIX -d)
@@ -29,7 +31,6 @@ install(TARGETS DetourTileCache
         COMPONENT library
         )
 
-file(GLOB INCLUDES Include/*.h)
 install(FILES ${INCLUDES} DESTINATION
     ${CMAKE_INSTALL_INCLUDEDIR}/recastnavigation)
 if(MSVC)

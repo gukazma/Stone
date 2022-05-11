@@ -1,5 +1,6 @@
 file(GLOB SOURCES Source/*.cpp)
-add_library(DebugUtils ${SOURCES})
+file(GLOB INCLUDES Include/*.h)
+add_library(DebugUtils ${SOURCES} ${INCLUDES})
 
 add_library(RecastNavigation::DebugUtils ALIAS DebugUtils)
 set_target_properties(DebugUtils PROPERTIES DEBUG_POSTFIX -d)
@@ -30,7 +31,6 @@ install(TARGETS DebugUtils
         COMPONENT library
         )
 
-file(GLOB INCLUDES Include/*.h)
 install(FILES ${INCLUDES} DESTINATION
     ${CMAKE_INSTALL_INCLUDEDIR}/recastnavigation)
 if(MSVC)
