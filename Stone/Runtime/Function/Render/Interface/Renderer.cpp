@@ -5,6 +5,8 @@
 
 #include "Resource/Data/Interface/Mesh.h"
 #include <glad/glad.h>
+#include "Line.h"
+
 namespace Stone
 {
 	Renderer::Renderer()
@@ -28,6 +30,12 @@ namespace Stone
 		mesh->updateBuffer();
 		m_RendererImp->render(mesh);
 	}
+	void Renderer::renderLine(Mesh* mesh)
+	{
+		PublicSingletonInstance(Line).enable();
+		render(mesh);
+		PublicSingletonInstance(Line).disable();
+	}
 
 	std::shared_ptr<RendererInterface> RendererInterface::create()
 	{
@@ -44,4 +52,6 @@ namespace Stone
 		}
 		return nullptr;
 	}
+
+
 }

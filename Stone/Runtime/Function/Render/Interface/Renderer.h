@@ -32,6 +32,8 @@ namespace Stone
 		void end(uint32_t defaultFramebuffer);
 
 		void render(Mesh* mesh);
+
+		void renderLine(Mesh* mesh);
 		std::unique_ptr<RenderAPI> API;
 
 		std::shared_ptr<FrameBuffer> screenFrameBuffer() { return m_RendererImp->screenFrameBuffer(); }

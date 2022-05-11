@@ -42,7 +42,7 @@ namespace Stone
 		glm::mat4& getViewMatrix() { return m_View; }
 		glm::mat4& getProjMatrix() { return m_Proj; }
 
-    private:
+    public:
 		glm::vec2 m_InitialMousePosition = { 0.0, 0.0 };
 		UniformBlock m_UniformBlackData;
 		//View matrix variables
