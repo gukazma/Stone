@@ -15,7 +15,7 @@ namespace Stone
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glLineWidth(1.0f);
 		glEnable(GL_POLYGON_OFFSET_FILL);
-		glPolygonOffset(40.0f, -10.0f);
+		glPolygonOffset(0.1f, 0.2f);
 	}
 	void Line::disable()
 	{
