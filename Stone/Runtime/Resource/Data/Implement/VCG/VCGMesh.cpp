@@ -42,7 +42,7 @@ namespace Stone
                 }
             }
         }
-
+        vcg::tri::UpdateBounding<BaseTriMesh>::Box(m_Mesh);
         m_NeedUpdateBuffer = true;
     }
     void VCGMesh::read(const std::string& filename)
