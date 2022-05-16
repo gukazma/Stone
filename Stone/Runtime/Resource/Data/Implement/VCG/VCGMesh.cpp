@@ -56,7 +56,8 @@ namespace Stone
         if (extendName == "obj")
         {
             vcg::tri::io::ImporterOBJ<BaseTriMesh>::Info info;
-            if (!vcg::tri::io::ImporterOBJ<BaseTriMesh>::Open(m_Mesh, filename.c_str(), info))
+            auto rnt =  vcg::tri::io::ImporterOBJ<BaseTriMesh>::Open(m_Mesh, filename.c_str(), info);
+            if (rnt%2 || rnt == 0)
             {
                 LOG_INFO("Input mesh: {0}", meshName);
                 LOG_INFO("Mesh file type: {0}", extendName);
