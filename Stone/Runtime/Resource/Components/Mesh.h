@@ -13,6 +13,10 @@ namespace Stone
             : m_Mesh(new T(filename))
         {}
 
+        MeshComponent(T* mesh)
+            : m_Mesh(mesh)
+        {}
+
         ~MeshComponent() {  }
         
         T* m_Mesh;
