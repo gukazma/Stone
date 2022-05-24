@@ -53,7 +53,7 @@ void main()
 		if (RdotV > 0.0)
 			specular = ks * pow(RdotV, 0.6);
 
-		FragColor = ambient + diffuse + specular;
+		FragColor = (ambient + diffuse + specular) * texture(simple, in_TexCoord);;
 	}
 	else
 	{
