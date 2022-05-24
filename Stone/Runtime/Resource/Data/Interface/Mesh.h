@@ -25,6 +25,14 @@ namespace Stone
         virtual void update();
         virtual void updateBuffer() {}
         virtual ~Mesh();
+
+        std::string getDirectoryPath(const std::string& filepath)
+        {
+            auto lPos = filepath.find_last_of("/");
+            std::string directpath = filepath.substr(0, lPos + 1);
+            return directpath;
+        }
+
     public:
         std::shared_ptr<VertexArray> m_VAO = nullptr;
         std::shared_ptr<VertexBuffer> m_VBO = nullptr;
@@ -32,6 +40,7 @@ namespace Stone
         std::vector<Vertex> m_V;
         std::vector<uint32_t> m_I;
         std::string m_Path;
+        std::string m_Directory;
 
         bool operator==(const Mesh& other) const { return other.m_Path == m_Path; }
     };
