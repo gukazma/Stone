@@ -1,0 +1,3 @@
+[submodule "Stone/Vendors/assimp"]
+	path = Stone/Vendors/assimp
+	url = https://github.com/assimp/assimp.git

@@ -5,7 +5,7 @@ file(GLOB_RECURSE SOURCE_FILES "*.cpp")
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${HEADER_FILES} ${SOURCE_FILES})
 
-add_library(${TARGET_NAME} ${HEADER_FILES} ${SOURCE_FILES})
+add_library(${TARGET_NAME} STATIC ${HEADER_FILES} ${SOURCE_FILES})
 
 set_target_properties(${TARGET_NAME} PROPERTIES CXX_STANDARD 17)
 set_target_properties(${TARGET_NAME} PROPERTIES FOLDER "Stone")
@@ -24,6 +24,7 @@ target_link_libraries(${TARGET_NAME} PUBLIC
           vcgwrap
           stb
           Recast
+          assimp
           )
 
 target_include_directories(
