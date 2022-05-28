@@ -24,6 +24,12 @@ namespace Stone
     class TexturePool : public PublicSingleton<TexturePool>
     {
     public:
+        TexturePool() {
+            auto whiteTexture = Texture2D::create(1, 1);
+            uint32_t whiteTextureData = 0xffffffff;
+            whiteTexture->setData(&whiteTextureData, sizeof(whiteTextureData));
+            m_Map["whiteTexture"] = whiteTexture;
+        }
         std::shared_ptr<Texture2D> getTexture(const std::string& path)
         {
             if (m_Map.find(path)==m_Map.end())

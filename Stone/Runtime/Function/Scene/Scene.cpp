@@ -40,7 +40,6 @@ namespace Stone
 		auto modelview = m_Registry.view<ModelComponent<AssimpNode>, TransformComponent>();
 		for (auto entity : modelview)
 		{
-			LOG_DEBUG("has model");
 			auto& [model, transform] = modelview.get<ModelComponent<AssimpNode>, TransformComponent>(entity);
 			transform.bind();
 			AssimpNode::recusiveRender(model.getModel().get());

@@ -28,6 +28,10 @@ namespace Stone
 			{
 				mesh->m_Texture->bind(0);
 			}
+			else
+			{
+				PublicSingleton<TexturePool>::getInstance().getTexture("whiteTexture")->bind(0);
+			}
 			PublicSingletonInstance(Renderer).render(mesh.get());
 		}
 		for (auto child : node->m_ChildNodes)
