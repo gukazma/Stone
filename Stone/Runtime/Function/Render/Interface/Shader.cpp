@@ -9,6 +9,9 @@
 #include "screenquad_frag.h"
 #include "tiff_vert.h"
 #include "tiff_frag.h"
+#include "billboard_vert.h"
+#include "billboard_geom.h"
+#include "billboard_frag.h"
 namespace Stone
 {
     std::shared_ptr<Shader> Shader::create(const std::string& name)
@@ -33,15 +36,16 @@ namespace Stone
         add("MeshShader", mesh_vert, sizeof(mesh_vert), mesh_frag, sizeof(mesh_frag));
         add("ScreenShader", screenquad_vert, sizeof(screenquad_vert), screenquad_frag, sizeof(screenquad_frag));
         add("TiffShader", tiff_vert, sizeof(tiff_vert), tiff_frag, sizeof(tiff_frag));
+        add("BillboardShader", billboard_vert, sizeof(billboard_vert), billboard_frag, sizeof(billboard_frag), billboard_geom, sizeof(billboard_geom));
     }
 
-    std::shared_ptr<Shader> ShaderPool::add(const std::string& name, const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize)
+    std::shared_ptr<Shader> ShaderPool::add(const std::string& name, const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize, const uint32_t* gsshader, size_t gssize)
     {
         std::map<std::string, std::shared_ptr<Shader>>::iterator it = m_ShaderMap.find(name);
         if (it == m_ShaderMap.end())
         {
             m_ShaderMap[name] = Shader::create(name);
-            m_ShaderMap[name]->link(vshader, vsiz, fshader, fsize);
+            m_ShaderMap[name]->link(vshader, vsiz, fshader, fsize, gsshader, gssize);
         }
 
         return m_ShaderMap[name];

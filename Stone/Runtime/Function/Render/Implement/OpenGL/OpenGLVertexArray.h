@@ -13,7 +13,6 @@ namespace Stone
 
         void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) override;
         void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) override;
-
         const std::shared_ptr<IndexBuffer>& getIndexBuffer() const override;
     private:
         uint32_t m_RendererID;

@@ -30,6 +30,11 @@ namespace Stone
 		mesh->updateBuffer();
 		m_RendererImp->render(mesh);
 	}
+	void Renderer::render(Billboard* billboard)
+	{
+		billboard->update();
+		m_RendererImp->render(billboard);
+	}
 	void Renderer::renderLine(Mesh* mesh)
 	{
 		PublicSingletonInstance(Line).enable();

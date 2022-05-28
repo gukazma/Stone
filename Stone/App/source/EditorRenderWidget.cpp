@@ -22,8 +22,13 @@
 #include <Resource/Data/Implement/Assimp/AssimpMesh.h>
 #include <Resource/Data/Implement/Assimp/AssimpNode.h>
 #include <Resource/Data/Interface/ModelPool.h>
+
+#include <Function/Scene/Billboard.h>
+#include "Function/Render/Interface/Shader.h"
 namespace Stone
 {
+    Billboard* billboard = nullptr;
+    TransformComponent* transform;
 	EditorRendererWidget::EditorRendererWidget(QWidget* parent)
 		: QOpenGLWidget(parent), m_MousePos(std::make_shared<MousePos>(0.0f, 0.0f)), m_MouseAngle(std::make_shared<MouseAngle>(0.0f, 0.0f))
 	{}
@@ -36,6 +41,17 @@ namespace Stone
         PublicSingleton<Engine>::getInstance().renderInitialize();
         PublicSingleton<Engine>::getInstance().logicalInitialize();
         QtImGui::initialize(this);
+        std::vector<glm::vec3> pos;
+        pos.push_back({ 0, 0, 0 });
+        pos.push_back({ 0, 2, 0 });
+        pos.push_back({ 0, 2, 5 });
+        pos.push_back({ 1, 2, 5 });
+        pos.push_back({ 4, 2, 5 });
+        pos.push_back({ 0, 2, 5 });
+        pos.push_back({ 0, 5, 5 });
+        pos.push_back({ 4, 5, 5 });
+        billboard = new Billboard(pos, "D:/datas/imgs/webp/container2.png");
+        transform = new TransformComponent();
 	}
 
 	void EditorRendererWidget::resizeGL(int w, int h)
@@ -49,7 +65,18 @@ namespace Stone
         QElapsedTimer timer;
         timer.start();
         PublicSingleton<Engine>::getInstance().logicalTick();
-        PublicSingleton<Engine>::getInstance().renderTick(defaultFramebufferObject());
+        PublicSingleton<Renderer>::getInstance().begin();
+        PublicSingleton<Scene>::getInstance().renderTick();
+        transform->bind();
+        PublicSingleton<ShaderPool>::getInstance().get("BillboardShader")->bind();
+        if (billboard!=nullptr)
+        {
+            PublicSingleton<Renderer>::getInstance().render(billboard);
+        }
+        //_texture->bind(0);
+        //PublicSingleton<Renderer>::getInstance().render(vcgmesh);
+
+        PublicSingleton<Renderer>::getInstance().end(defaultFramebufferObject());
         renderImGui();
         update();
         PublicSingleton<Engine>::getInstance().DeltaTime = timer.nsecsElapsed()* 1.0e-9f;

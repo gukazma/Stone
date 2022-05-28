@@ -10,7 +10,7 @@ namespace Stone
     {
     public:
         virtual ~Shader() = default;
-        virtual void link(const uint32_t* vshader, size_t vsiz,const uint32_t* fshader, size_t fsize) = 0;
+        virtual void link(const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize, const uint32_t* gsshader = nullptr, size_t gssize = 0) = 0;
         virtual void bind() = 0;
         virtual void unbind() = 0;
         static std::shared_ptr<Shader> create(const std::string&);
@@ -24,7 +24,7 @@ namespace Stone
     public:
         ShaderPool();
 
-        std::shared_ptr<Shader> add(const std::string& name,const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize);
+        std::shared_ptr<Shader> add(const std::string& name,const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize, const uint32_t* gsshader = nullptr, size_t gssize = 0);
 
         std::shared_ptr<Shader> get(const std::string& name);
     private:

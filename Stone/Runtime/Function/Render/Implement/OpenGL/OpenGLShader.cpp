@@ -52,7 +52,7 @@ namespace Stone
         glDeleteShader(m_RendererID);
     }
 
-    void OpenGLShader::link(const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize)
+    void OpenGLShader::link(const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize, const uint32_t* gsshader, size_t gssize)
     {
         GLuint svert = glCreateShader(GL_VERTEX_SHADER);
         glShaderBinary(1, &svert, GL_SHADER_BINARY_FORMAT_SPIR_V, vshader, vsiz);
@@ -65,11 +65,23 @@ namespace Stone
         glSpecializeShader(sfrag, "main", 0, nullptr, nullptr);
         glAttachShader(m_RendererID, sfrag);
         ASSERT(checkCompileErrors(sfrag, "FRAGMENT"), "FRAGMENT shader error");
-
+        GLuint sgeom;
+        if (gsshader!=nullptr)
+        {
+            sgeom = glCreateShader(GL_GEOMETRY_SHADER);
+            glShaderBinary(1, &sgeom, GL_SHADER_BINARY_FORMAT_SPIR_V, gsshader, gssize);
+            glSpecializeShader(sgeom, "main", 0, nullptr, nullptr);
+            glAttachShader(m_RendererID, sgeom);
+            ASSERT(checkCompileErrors(sgeom, "GEOMETRY"), "GEOMETRY shader error");
+        }
         glLinkProgram(m_RendererID);
         ASSERT(checkCompileErrors(m_RendererID, "PROGRAM"), "Shader Link error");
         glDeleteShader(svert);
         glDeleteShader(sfrag);
+        if (gsshader != nullptr)
+        {
+            glDeleteShader(sgeom);
+        }
     }
 
     void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value) const

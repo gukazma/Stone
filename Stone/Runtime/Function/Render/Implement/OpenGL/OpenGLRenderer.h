@@ -11,6 +11,7 @@ namespace Stone
 		void begin() override;
 		void end(uint32_t defaultFramebuffer) override;
 		void render(const Mesh* mesh) override;
+		void render(const Billboard* billboard) override;
 		virtual std::shared_ptr<FrameBuffer> screenFrameBuffer() override { return m_FrameBuffer; }
 		std::unique_ptr<RenderAPI> API;
 	private:

@@ -4,6 +4,7 @@
 #include "Function/Render/Interface/RenderAPI.h"
 #include "Function/Render/Interface/FrameBuffer.h"
 #include "Resource/Data/Interface/Mesh.h"
+#include "Function/Scene/Billboard.h"
 namespace Stone
 {
 
@@ -17,6 +18,7 @@ namespace Stone
 		virtual void begin() = 0;
 		virtual void end(uint32_t defaultFramebuffer) = 0;
 		virtual void render(const Mesh* mesh) = 0;
+		virtual void render(const Billboard* billboard) = 0;
 		virtual std::shared_ptr<FrameBuffer> screenFrameBuffer() = 0;
 
 	};
@@ -32,7 +34,7 @@ namespace Stone
 		void end(uint32_t defaultFramebuffer);
 
 		void render(Mesh* mesh);
-
+		void render(Billboard* billboard);
 		void renderLine(Mesh* mesh);
 		std::unique_ptr<RenderAPI> API;
 

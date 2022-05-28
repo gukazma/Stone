@@ -8,7 +8,7 @@ namespace Stone
     public:
         OpenGLShader(const std::string& name);
         virtual ~OpenGLShader();
-        void link(const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize) override;
+        void link(const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize, const uint32_t* gsshader = nullptr, size_t gssize = 0) override;
         void bind() override;
         void unbind() override;
         void setMat4(const std::string &name, const glm::mat4& value) const override;

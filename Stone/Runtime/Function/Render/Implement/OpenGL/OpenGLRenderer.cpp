@@ -46,7 +46,7 @@ namespace Stone
 	}
 	void OpenGLRenderer::end(uint32_t defaultFramebuffer)
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebuffer); // ����Ĭ��
+		glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebuffer);
 		PublicSingleton<ShaderPool>::getInstance().get("ScreenShader")->bind();
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -59,5 +59,10 @@ namespace Stone
 	{
 		mesh->m_VAO->bind();
 		API->drawElements(mesh->m_VAO);
+	}
+	void OpenGLRenderer::render(const Billboard* billboard)
+	{
+		billboard->m_Texture->bind(0);
+		API->drawArrays(billboard->m_VAO, RenderAPI::DrawMode::Point, 0, billboard->m_VPos.size());
 	}
 }
