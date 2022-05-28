@@ -17,6 +17,11 @@
 #include <ImGuizmo.h>
 #include <Function/Scene/Light.h>
 #include <glm/gtc/type_ptr.hpp>
+
+#include <Resource/Components/Model.h>
+#include <Resource/Data/Implement/Assimp/AssimpMesh.h>
+#include <Resource/Data/Implement/Assimp/AssimpNode.h>
+#include <Resource/Data/Interface/ModelPool.h>
 namespace Stone
 {
 	EditorRendererWidget::EditorRendererWidget(QWidget* parent)
@@ -134,7 +139,7 @@ namespace Stone
         auto lPos = filename.find_last_of("/");
         std::string meshName = filename.substr(lPos + 1, pointPos - 1 - lPos);
         auto testMesh = PublicSingletonInstance(Scene).CreateObject(meshName);
-        testMesh.AddComponent<MeshComponent<VCGMesh>>(filename);
+        testMesh.AddComponent<ModelComponent<AssimpNode>>(filename);
         testMesh.AddComponent<TransformComponent>();
     }
 }

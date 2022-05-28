@@ -13,6 +13,11 @@
 
 #include "Function/Render/Interface/Renderer.h"
 #include "Function/Render/Interface/Shader.h"
+
+#include <Resource/Components/Model.h>
+#include <Resource/Data/Implement/Assimp/AssimpMesh.h>
+#include <Resource/Data/Implement/Assimp/AssimpNode.h>
+#include <Resource/Data/Interface/ModelPool.h>
 namespace Stone
 {
 	Scene::Scene()
@@ -31,6 +36,14 @@ namespace Stone
 			auto& [mesh, transform] = view.get<MeshComponent<VCGMesh>, TransformComponent>(entity);
 			transform.bind();
 			PublicSingleton<Renderer>::getInstance().render(mesh.m_Mesh);
+		}
+		auto modelview = m_Registry.view<ModelComponent<AssimpNode>, TransformComponent>();
+		for (auto entity : modelview)
+		{
+			LOG_DEBUG("has model");
+			auto& [model, transform] = modelview.get<ModelComponent<AssimpNode>, TransformComponent>(entity);
+			transform.bind();
+			AssimpNode::recusiveRender(model.getModel().get());
 		}
 	}
 	void Scene::initialize()
