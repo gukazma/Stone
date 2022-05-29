@@ -25,10 +25,12 @@
 
 #include <Function/Scene/Billboard.h>
 #include "Function/Render/Interface/Shader.h"
+#include "Function/Render/Interface/Buffer.h"
+#include "Function/Render/Interface/VertexArray.h"
+#include <test_vert.h>
 namespace Stone
 {
-    Billboard* billboard = nullptr;
-    TransformComponent* transform;
+    std::shared_ptr<Shader> testshader;
 	EditorRendererWidget::EditorRendererWidget(QWidget* parent)
 		: QOpenGLWidget(parent), m_MousePos(std::make_shared<MousePos>(0.0f, 0.0f)), m_MouseAngle(std::make_shared<MouseAngle>(0.0f, 0.0f))
 	{}
@@ -41,17 +43,39 @@ namespace Stone
         PublicSingleton<Engine>::getInstance().renderInitialize();
         PublicSingleton<Engine>::getInstance().logicalInitialize();
         QtImGui::initialize(this);
-        std::vector<glm::vec3> pos;
-        pos.push_back({ 0, 0, 0 });
-        pos.push_back({ 0, 2, 0 });
-        pos.push_back({ 0, 2, 5 });
-        pos.push_back({ 1, 2, 5 });
-        pos.push_back({ 4, 2, 5 });
-        pos.push_back({ 0, 2, 5 });
-        pos.push_back({ 0, 5, 5 });
-        pos.push_back({ 4, 5, 5 });
-        billboard = new Billboard(pos, "D:/datas/imgs/webp/container2.png");
-        transform = new TransformComponent();
+        testshader = Shader::create("testshader");
+        auto vershader = testshader->create(test_vert, sizeof(test_vert), Shader::ShaderType::Vertex_Shader);
+        testshader->attach(vershader);
+        const GLchar* feedbackVaryings[] = { "outValue" };
+        glTransformFeedbackVaryings(testshader->getRenderID(), 1, feedbackVaryings, GL_INTERLEAVED_ATTRIBS);
+        testshader->link();
+        testshader->bind();
+
+        GLfloat data[] = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f };
+        auto VBO = VertexBuffer::create(data, sizeof(data));
+        VBO->setLayout({
+            { ShaderDataType::Float, "aPos" },
+            });
+        auto VAO = VertexArray::create();
+        VAO->addVertexBuffer(VBO);
+        VAO->bind();
+
+        auto TBO = VertexBuffer::create(nullptr, sizeof(data));
+        /*GLuint tbo;
+        glGenBuffers(1, &tbo);
+        glBindBuffer(GL_ARRAY_BUFFER, tbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(data), nullptr, GL_STATIC_READ);*/
+        glEnable(GL_RASTERIZER_DISCARD);
+        TBO->bindTransformFeedback(0);
+        glBeginTransformFeedback(GL_POINTS);
+        glDrawArrays(GL_POINTS, 0, 5);
+        glEndTransformFeedback();
+        glFlush();
+        GLfloat feedback[5];
+        glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
+        printf("%f %f %f %f %f\n", feedback[0], feedback[1], feedback[2], feedback[3], feedback[4]);
+        glDisable(GL_RASTERIZER_DISCARD);
+        
 	}
 
 	void EditorRendererWidget::resizeGL(int w, int h)
@@ -67,12 +91,6 @@ namespace Stone
         PublicSingleton<Engine>::getInstance().logicalTick();
         PublicSingleton<Renderer>::getInstance().begin();
         PublicSingleton<Scene>::getInstance().renderTick();
-        transform->bind();
-        PublicSingleton<ShaderPool>::getInstance().get("BillboardShader")->bind();
-        if (billboard!=nullptr)
-        {
-            PublicSingleton<Renderer>::getInstance().render(billboard);
-        }
         //_texture->bind(0);
         //PublicSingleton<Renderer>::getInstance().render(vcgmesh);
 

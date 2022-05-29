@@ -104,6 +104,7 @@ namespace Stone
     public:
         virtual ~VertexBuffer() = default;
         virtual void bind() = 0;
+        virtual void bindTransformFeedback(uint32_t index = 0) = 0;
         virtual void unbind() = 0;
 
         virtual void setData(const void* data, uint32_t size) = 0;

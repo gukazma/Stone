@@ -17,6 +17,9 @@ namespace Stone
         void unbind() override;
         void setMat4(const std::string &name, const glm::mat4& value) const override;
         virtual void setInt(const std::string &name, uint32_t value) const override;
+        virtual uint32_t getRenderID() const override {
+            return m_RendererID;
+        }
     private:
         int checkCompileErrors(unsigned int shader, std::string type);
         uint32_t m_RendererID;

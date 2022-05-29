@@ -26,6 +26,11 @@ namespace Stone
         glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
     }
 
+    void OpenGLVertexBuffer::bindTransformFeedback(uint32_t index)
+    {
+        glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, index, m_RendererID);
+    }
+
     void OpenGLVertexBuffer::unbind()
     {
         glBindBuffer(GL_ARRAY_BUFFER, 0);

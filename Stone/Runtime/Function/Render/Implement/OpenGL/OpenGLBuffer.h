@@ -9,6 +9,7 @@ namespace Stone
         OpenGLVertexBuffer(uint32_t size);
         virtual ~OpenGLVertexBuffer();
         void bind() override;
+        void bindTransformFeedback(uint32_t index = 0) override;
         void unbind() override;
 
         void setLayout(const BufferLayout& bufferLayout) override;

@@ -26,6 +26,7 @@ namespace Stone
         static std::shared_ptr<Shader> create(const std::string&);
         virtual void setMat4(const std::string &name, const glm::mat4& value) const = 0;
         virtual void setInt(const std::string &name, uint32_t value) const = 0;
+        virtual uint32_t getRenderID()const = 0;
     private:
     };
 
