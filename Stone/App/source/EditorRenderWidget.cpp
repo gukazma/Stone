@@ -55,7 +55,7 @@ namespace Stone
         testshader->bind();
 
         GLfloat data[] = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f };
-        auto VBO = VertexBuffer::create(data, sizeof(data));
+        auto VBO = VertexBuffer::create(data, sizeof(data) * 5);
         VBO->setLayout({
             { ShaderDataType::Float, "aPos" },
             });
@@ -63,17 +63,22 @@ namespace Stone
         VAO->addVertexBuffer(VBO);
         VAO->bind();
 
-        auto TBO = VertexBuffer::create(nullptr, sizeof(data) * 3);
-        /*GLuint tbo;
-        glGenBuffers(1, &tbo);
-        glBindBuffer(GL_ARRAY_BUFFER, tbo);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(data), nullptr, GL_STATIC_READ);*/
+        auto VBO_ = VertexBuffer::create(data, sizeof(data) * 5);
+        VBO_->setLayout({
+            { ShaderDataType::Float, "aPos" },
+            });
+        auto VAO_ = VertexArray::create();
+        VAO_->addVertexBuffer(VBO_);
+        VAO_->bind();
+           
+
         glEnable(GL_RASTERIZER_DISCARD);
-        TBO->bindTransformFeedback(0);
+        VAO->bind();
+        VBO_->bindTransformFeedback(0);
         GLuint query;
         glGenQueries(1, &query);
         glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, query);
-        glBeginTransformFeedback(GL_TRIANGLES);
+        glBeginTransformFeedback(GL_POINTS);
         glDrawArrays(GL_POINTS, 0, 5);
         glEndTransformFeedback();
         glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
@@ -82,13 +87,39 @@ namespace Stone
 
         GLuint primitives;
         glGetQueryObjectuiv(query, GL_QUERY_RESULT, &primitives);
-        GLfloat feedback[15];
+        GLfloat feedback[5];
         glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
-        for (size_t i = 0; i < 15; i++)
+        for (size_t i = 0; i < 5; i++)
         {
             LOG_DEBUG("feedback: {0}", feedback[i]);
         }
         LOG_DEBUG("{0} primitives written!", primitives);
+        glDisable(GL_RASTERIZER_DISCARD);
+
+
+        // swap
+        glEnable(GL_RASTERIZER_DISCARD);
+        VAO_->bind();
+        VBO->bindTransformFeedback(0);
+        GLuint query_;
+        glGenQueries(1, &query_);
+        glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, query_);
+        glBeginTransformFeedback(GL_POINTS);
+        glDrawArrays(GL_POINTS, 0, 5);
+        glEndTransformFeedback();
+        glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
+
+        glFlush();
+
+        GLuint primitives_;
+        glGetQueryObjectuiv(query_, GL_QUERY_RESULT, &primitives_);
+        GLfloat feedback_[5];
+        glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback_), feedback_);
+        for (size_t i = 0; i < 5; i++)
+        {
+            LOG_DEBUG("feedback: {0}", feedback_[i]);
+        }
+        LOG_DEBUG("{0} primitives written!", primitives_);
         glDisable(GL_RASTERIZER_DISCARD);
         
 	}
