@@ -7,6 +7,35 @@
 #include <iostream>
 namespace Stone
 {
+    GLenum getGLShaderType(Shader::ShaderType type)
+    {
+        switch (type)
+        {
+        case Stone::Shader::ShaderType::Vertex_Shader:
+            return GL_VERTEX_SHADER;
+        case Stone::Shader::ShaderType::Geometry_Shader:
+            return GL_GEOMETRY_SHADER;
+        case Stone::Shader::ShaderType::Fragment_Shader:
+            return GL_FRAGMENT_SHADER;
+        default:
+            break;
+        }
+    }
+
+    std::string getGLShaderTypeString(Shader::ShaderType type)
+    {
+        switch (type)
+        {
+        case Stone::Shader::ShaderType::Vertex_Shader:
+            return "VERTEX";
+        case Stone::Shader::ShaderType::Geometry_Shader:
+            return "GEOMETRY";
+        case Stone::Shader::ShaderType::Fragment_Shader:
+            return "FRAGMENT";
+        default:
+            break;
+        }
+    }
     int OpenGLShader::checkCompileErrors(unsigned int shader, std::string type)
     {
         int success;
@@ -52,35 +81,54 @@ namespace Stone
         glDeleteShader(m_RendererID);
     }
 
+    uint32_t OpenGLShader::create(const uint32_t* shaderSource, size_t shadersize, ShaderType shaderType)
+    {
+        GLuint shaderid = glCreateShader(getGLShaderType(shaderType));
+        glShaderBinary(1, &shaderid, GL_SHADER_BINARY_FORMAT_SPIR_V, shaderSource, shadersize);
+        glSpecializeShader(shaderid, "main", 0, nullptr, nullptr);
+        std::string typestring = getGLShaderTypeString(shaderType);
+        ASSERT(checkCompileErrors(shaderid, typestring),typestring + " shader error");
+        return shaderid;
+    }
+
+    void OpenGLShader::deleteShader(uint32_t shaderid)
+    {
+        glDeleteShader(shaderid);
+    }
+
+    void OpenGLShader::attach(uint32_t shader)
+    {
+        glAttachShader(m_RendererID, shader);
+    }
+
+    void OpenGLShader::link()
+    {
+        glLinkProgram(m_RendererID);
+        ASSERT(checkCompileErrors(m_RendererID, "PROGRAM"), "Shader Link error");
+    }
+
     void OpenGLShader::link(const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize, const uint32_t* gsshader, size_t gssize)
     {
-        GLuint svert = glCreateShader(GL_VERTEX_SHADER);
-        glShaderBinary(1, &svert, GL_SHADER_BINARY_FORMAT_SPIR_V, vshader, vsiz);
-        glSpecializeShader(svert, "main", 0, nullptr, nullptr);
-        ASSERT(checkCompileErrors(svert, "VERTEX"), "VERXTEX shader error");
-        glAttachShader(m_RendererID, svert);
+        GLuint svert = create(vshader, vsiz, Shader::ShaderType::Vertex_Shader);
+        
+        attach(svert);
 
-        GLuint sfrag = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderBinary(1, &sfrag, GL_SHADER_BINARY_FORMAT_SPIR_V, fshader, fsize);
-        glSpecializeShader(sfrag, "main", 0, nullptr, nullptr);
-        glAttachShader(m_RendererID, sfrag);
-        ASSERT(checkCompileErrors(sfrag, "FRAGMENT"), "FRAGMENT shader error");
+        GLuint sfrag = create(fshader, fsize, Shader::ShaderType::Fragment_Shader);
+
+        attach(sfrag);
         GLuint sgeom;
         if (gsshader!=nullptr)
         {
-            sgeom = glCreateShader(GL_GEOMETRY_SHADER);
-            glShaderBinary(1, &sgeom, GL_SHADER_BINARY_FORMAT_SPIR_V, gsshader, gssize);
-            glSpecializeShader(sgeom, "main", 0, nullptr, nullptr);
-            glAttachShader(m_RendererID, sgeom);
-            ASSERT(checkCompileErrors(sgeom, "GEOMETRY"), "GEOMETRY shader error");
+            sgeom = create(gsshader, gssize, Shader::ShaderType::Geometry_Shader);
+            attach(sgeom);
         }
-        glLinkProgram(m_RendererID);
-        ASSERT(checkCompileErrors(m_RendererID, "PROGRAM"), "Shader Link error");
-        glDeleteShader(svert);
-        glDeleteShader(sfrag);
+
+        link();
+        deleteShader(svert);
+        deleteShader(sfrag);
         if (gsshader != nullptr)
         {
-            glDeleteShader(sgeom);
+            deleteShader(sgeom);
         }
     }
 

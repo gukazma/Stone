@@ -51,6 +51,13 @@ namespace Stone
         return m_ShaderMap[name];
     }
 
+    std::shared_ptr<Shader> ShaderPool::add(const std::string& name, std::shared_ptr<Shader> shader)
+    {
+        std::map<std::string, std::shared_ptr<Shader>>::iterator it = m_ShaderMap.find(name);
+        m_ShaderMap[name] = shader;
+        return shader;
+    }
+
     std::shared_ptr<Shader> ShaderPool::get(const std::string& name)
     {
         return m_ShaderMap[name];

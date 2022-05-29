@@ -9,7 +9,17 @@ namespace Stone
     class Shader
     {
     public:
+        enum class ShaderType
+        {
+            Vertex_Shader = 0,
+            Geometry_Shader,
+            Fragment_Shader
+        };
         virtual ~Shader() = default;
+        virtual uint32_t create(const uint32_t* shaderSource, size_t shadersize, ShaderType shaderType) = 0;
+        virtual void deleteShader(uint32_t shaderid) = 0;
+        virtual void attach(uint32_t shader) = 0;
+        virtual void link() = 0;
         virtual void link(const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize, const uint32_t* gsshader = nullptr, size_t gssize = 0) = 0;
         virtual void bind() = 0;
         virtual void unbind() = 0;
@@ -24,7 +34,8 @@ namespace Stone
     public:
         ShaderPool();
 
-        std::shared_ptr<Shader> add(const std::string& name,const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize, const uint32_t* gsshader = nullptr, size_t gssize = 0);
+        std::shared_ptr<Shader> add(const std::string& name, const uint32_t* vshader, size_t vsiz, const uint32_t* fshader, size_t fsize, const uint32_t* gsshader = nullptr, size_t gssize = 0);
+        std::shared_ptr<Shader> add(const std::string& name, std::shared_ptr<Shader> shader);
 
         std::shared_ptr<Shader> get(const std::string& name);
     private:
