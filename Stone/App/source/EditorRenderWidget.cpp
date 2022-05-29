@@ -70,16 +70,25 @@ namespace Stone
         glBufferData(GL_ARRAY_BUFFER, sizeof(data), nullptr, GL_STATIC_READ);*/
         glEnable(GL_RASTERIZER_DISCARD);
         TBO->bindTransformFeedback(0);
+        GLuint query;
+        glGenQueries(1, &query);
+        glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, query);
         glBeginTransformFeedback(GL_TRIANGLES);
         glDrawArrays(GL_POINTS, 0, 5);
         glEndTransformFeedback();
+        glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
+
         glFlush();
+
+        GLuint primitives;
+        glGetQueryObjectuiv(query, GL_QUERY_RESULT, &primitives);
         GLfloat feedback[15];
         glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
         for (size_t i = 0; i < 15; i++)
         {
             LOG_DEBUG("feedback: {0}", feedback[i]);
         }
+        LOG_DEBUG("{0} primitives written!", primitives);
         glDisable(GL_RASTERIZER_DISCARD);
         
 	}
