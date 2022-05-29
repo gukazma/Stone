@@ -28,6 +28,7 @@
 #include "Function/Render/Interface/Buffer.h"
 #include "Function/Render/Interface/VertexArray.h"
 #include <test_vert.h>
+#include <test_geom.h>
 namespace Stone
 {
     std::shared_ptr<Shader> testshader;
@@ -46,6 +47,8 @@ namespace Stone
         testshader = Shader::create("testshader");
         auto vershader = testshader->create(test_vert, sizeof(test_vert), Shader::ShaderType::Vertex_Shader);
         testshader->attach(vershader);
+        auto geoshader = testshader->create(test_geom, sizeof(test_geom), Shader::ShaderType::Geometry_Shader);
+        testshader->attach(geoshader);
         const GLchar* feedbackVaryings[] = { "outValue" };
         glTransformFeedbackVaryings(testshader->getRenderID(), 1, feedbackVaryings, GL_INTERLEAVED_ATTRIBS);
         testshader->link();
@@ -60,20 +63,23 @@ namespace Stone
         VAO->addVertexBuffer(VBO);
         VAO->bind();
 
-        auto TBO = VertexBuffer::create(nullptr, sizeof(data));
+        auto TBO = VertexBuffer::create(nullptr, sizeof(data) * 3);
         /*GLuint tbo;
         glGenBuffers(1, &tbo);
         glBindBuffer(GL_ARRAY_BUFFER, tbo);
         glBufferData(GL_ARRAY_BUFFER, sizeof(data), nullptr, GL_STATIC_READ);*/
         glEnable(GL_RASTERIZER_DISCARD);
         TBO->bindTransformFeedback(0);
-        glBeginTransformFeedback(GL_POINTS);
+        glBeginTransformFeedback(GL_TRIANGLES);
         glDrawArrays(GL_POINTS, 0, 5);
         glEndTransformFeedback();
         glFlush();
-        GLfloat feedback[5];
+        GLfloat feedback[15];
         glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
-        printf("%f %f %f %f %f\n", feedback[0], feedback[1], feedback[2], feedback[3], feedback[4]);
+        for (size_t i = 0; i < 15; i++)
+        {
+            LOG_DEBUG("feedback: {0}", feedback[i]);
+        }
         glDisable(GL_RASTERIZER_DISCARD);
         
 	}
