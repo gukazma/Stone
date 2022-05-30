@@ -11,8 +11,8 @@
 #include "Resource/Components/Transform.h"
 #include "Resource/Data/Implement/VCG/VCGMesh.h"
 
-#include "Function/Render/Interface/Renderer.h"
-#include "Function/Render/Interface/Shader.h"
+#include "Function/Render/Renderer.h"
+#include "Function/Render/Shader.h"
 
 #include <Resource/Components/Model.h>
 #include <Resource/Data/Implement/Assimp/AssimpMesh.h>

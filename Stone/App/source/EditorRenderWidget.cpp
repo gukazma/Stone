@@ -3,7 +3,7 @@
 #include <iostream>
 #include <Core/Base/macro.h>
 #include <Engine.h>
-#include <Function/Render/Interface/Renderer.h>
+#include <Function/Render/Renderer.h>
 #include <Function/Event/EventSystem.h>
 #include <Function/Scene/EditCamera.h>
 #include <Function/Scene/Scene.h>
@@ -24,11 +24,13 @@
 #include <Resource/Data/Interface/ModelPool.h>
 
 #include <Function/Scene/Billboard.h>
-#include "Function/Render/Interface/Shader.h"
-#include "Function/Render/Interface/Buffer.h"
-#include "Function/Render/Interface/VertexArray.h"
+#include "Function/Render/Shader.h"
+#include "Function/Render/Buffer.h"
+#include "Function/Render/VertexArray.h"
 #include <test_vert.h>
 #include <test_geom.h>
+
+#include <Function/Particle/Particle.h>
 namespace Stone
 {
     std::shared_ptr<Shader> testshader;
@@ -44,84 +46,15 @@ namespace Stone
         PublicSingleton<Engine>::getInstance().renderInitialize();
         PublicSingleton<Engine>::getInstance().logicalInitialize();
         QtImGui::initialize(this);
-        testshader = Shader::create("testshader");
-        auto vershader = testshader->create(test_vert, sizeof(test_vert), Shader::ShaderType::Vertex_Shader);
-        testshader->attach(vershader);
-        auto geoshader = testshader->create(test_geom, sizeof(test_geom), Shader::ShaderType::Geometry_Shader);
-        testshader->attach(geoshader);
-        const GLchar* feedbackVaryings[] = { "outValue" };
-        glTransformFeedbackVaryings(testshader->getRenderID(), 1, feedbackVaryings, GL_INTERLEAVED_ATTRIBS);
-        testshader->link();
-        testshader->bind();
-
-        GLfloat data[] = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f };
-        auto VBO = VertexBuffer::create(data, sizeof(data) * 5);
-        VBO->setLayout({
-            { ShaderDataType::Float, "aPos" },
-            });
-        auto VAO = VertexArray::create();
-        VAO->addVertexBuffer(VBO);
-        VAO->bind();
-
-        auto VBO_ = VertexBuffer::create(data, sizeof(data) * 5);
-        VBO_->setLayout({
-            { ShaderDataType::Float, "aPos" },
-            });
-        auto VAO_ = VertexArray::create();
-        VAO_->addVertexBuffer(VBO_);
-        VAO_->bind();
-           
-
-        glEnable(GL_RASTERIZER_DISCARD);
-        VAO->bind();
-        VBO_->bindTransformFeedback(0);
-        GLuint query;
-        glGenQueries(1, &query);
-        glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, query);
-        glBeginTransformFeedback(GL_POINTS);
-        glDrawArrays(GL_POINTS, 0, 5);
-        glEndTransformFeedback();
-        glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
-
-        glFlush();
-
-        GLuint primitives;
-        glGetQueryObjectuiv(query, GL_QUERY_RESULT, &primitives);
-        GLfloat feedback[5];
-        glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
-        for (size_t i = 0; i < 5; i++)
-        {
-            LOG_DEBUG("feedback: {0}", feedback[i]);
-        }
-        LOG_DEBUG("{0} primitives written!", primitives);
-        glDisable(GL_RASTERIZER_DISCARD);
-
-
-        // swap
-        glEnable(GL_RASTERIZER_DISCARD);
-        VAO_->bind();
-        VBO->bindTransformFeedback(0);
-        GLuint query_;
-        glGenQueries(1, &query_);
-        glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, query_);
-        glBeginTransformFeedback(GL_POINTS);
-        glDrawArrays(GL_POINTS, 0, 5);
-        glEndTransformFeedback();
-        glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
-
-        glFlush();
-
-        GLuint primitives_;
-        glGetQueryObjectuiv(query_, GL_QUERY_RESULT, &primitives_);
-        GLfloat feedback_[5];
-        glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback_), feedback_);
-        for (size_t i = 0; i < 5; i++)
-        {
-            LOG_DEBUG("feedback: {0}", feedback_[i]);
-        }
-        LOG_DEBUG("{0} primitives written!", primitives_);
-        glDisable(GL_RASTERIZER_DISCARD);
-        
+        Particle particle;
+        particle.v = 1.0;
+        Particle particle1;
+        particle1.v = 1.0;
+        PublicSingleton<ParticleSystem>::getInstance().init();
+        PublicSingleton<ParticleSystem>::getInstance().add(particle);
+        PublicSingleton<ParticleSystem>::getInstance().add(particle1);
+        PublicSingleton<ParticleSystem>::getInstance().logictick();
+        PublicSingleton<ParticleSystem>::getInstance().logictick();
 	}
 
 	void EditorRendererWidget::resizeGL(int w, int h)
@@ -137,8 +70,6 @@ namespace Stone
         PublicSingleton<Engine>::getInstance().logicalTick();
         PublicSingleton<Renderer>::getInstance().begin();
         PublicSingleton<Scene>::getInstance().renderTick();
-        //_texture->bind(0);
-        //PublicSingleton<Renderer>::getInstance().render(vcgmesh);
 
         PublicSingleton<Renderer>::getInstance().end(defaultFramebufferObject());
         renderImGui();

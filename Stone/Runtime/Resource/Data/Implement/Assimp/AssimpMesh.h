@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Resource/Data/Interface/Mesh.h>
-#include <Function/Render/Interface/Texture.h>
+#include <Function/Render/Texture.h>
 #include <vector>
 #include <assimp/scene.h>
 

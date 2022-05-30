@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <Function/Render/Interface/VertexArray.h>
+#include <Function/Render/VertexArray.h>
 namespace Stone
 {
 	struct Vertex

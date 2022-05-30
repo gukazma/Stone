@@ -5,7 +5,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <Function/Render/Interface/UniformBuffer.h>
+#include <Function/Render/UniformBuffer.h>
 namespace Stone
 {
     struct TransformComponent {

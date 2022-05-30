@@ -2,7 +2,7 @@
 #include "Core/Base/PublicSingleton.h"
 #include "Function/UI/UIInterface.h"
 #include "Mainwindow.h"
-#include <Function/Render/Interface/FrameBuffer.h>
+#include <Function/Render/FrameBuffer.h>
 namespace Stone
 {
 	class EditorUI : public UIInterface, public PublicSingleton<EditorUI>

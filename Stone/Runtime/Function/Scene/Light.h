@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "Core/Base/PublicSingleton.h"
-#include "Function/Render/Interface/UniformBuffer.h"
+#include "Function/Render/UniformBuffer.h"
 namespace Stone
 {
     class GLobalLight : public PublicSingleton<GLobalLight>

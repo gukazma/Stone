@@ -1,6 +1,6 @@
 #pragma once
-#include <Function/Render/Interface/Texture.h>
-#include <Function/Render/Interface/VertexArray.h>
+#include <Function/Render/Texture.h>
+#include <Function/Render/VertexArray.h>
 #include <glm/glm.hpp>
 #include <vector>
 namespace Stone

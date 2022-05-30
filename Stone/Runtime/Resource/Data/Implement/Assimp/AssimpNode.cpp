@@ -2,7 +2,7 @@
 #include <assimp/cimport.h>
 #include <assimp/postprocess.h>
 
-#include <Function/Render/Interface/Renderer.h>
+#include <Function/Render/Renderer.h>
 
 namespace Stone
 {

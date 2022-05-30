@@ -1,5 +1,5 @@
 #pragma once
-#include "Function/Render/Interface/UniformBuffer.h"
+#include "Function/Render/UniformBuffer.h"
 namespace Stone
 {
 	class Camera

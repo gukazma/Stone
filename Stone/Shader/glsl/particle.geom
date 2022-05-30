@@ -12,7 +12,7 @@ layout(std140, binding = 4) uniform RendererUniformBuffer
 
 void main()
 {
-    outValue = geoValue[0] + 10*u_DeltaTime;
+    outValue = geoValue[0] + 1;
     EmitVertex();
 
     EndPrimitive();

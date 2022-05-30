@@ -1,5 +1,5 @@
 #pragma once
-#include "Function/Render/Interface/FrameBuffer.h"
+#include "Function/Render/FrameBuffer.h"
 namespace Stone
 {
     class UIInterface

@@ -1,6 +1,6 @@
 #pragma once
 #include "Function/Scene/Camera.h"
-#include "Function/Render/Interface/UniformBuffer.h"
+#include "Function/Render/UniformBuffer.h"
 #include "Function/Event/Listener.h"
 #include "glm/glm.hpp"
 #include "Core/Base/PublicSingleton.h"

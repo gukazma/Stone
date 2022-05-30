@@ -1,14 +1,14 @@
 #include "Engine.h"
 
-#include "Function/Render/Interface/Renderer.h"
+#include "Function/Render/Renderer.h"
 #include "Function/Event/EventSystem.h"
 
 #include "Function/Scene/EditCamera.h"
 #include "Function/Scene/Scene.h"
 
-#include "Function/Render/Interface/Renderer.h"
-#include "Function/Render/Interface/Texture.h"
-#include "Function/Render/Interface/Shader.h"
+#include "Function/Render/Renderer.h"
+#include "Function/Render/Texture.h"
+#include "Function/Render/Shader.h"
 
 #include "Resource/Data/Implement/VCG/VCGMesh.h"
 
