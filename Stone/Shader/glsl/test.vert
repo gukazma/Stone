@@ -5,5 +5,5 @@ layout (location = 0) out float outValue;
 
 void main()
 {
-    outValue = sqrt(inValue);
+    outValue = inValue;
 }
