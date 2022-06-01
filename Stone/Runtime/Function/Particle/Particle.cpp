@@ -8,7 +8,7 @@ namespace Stone
 	{
 		m_ParticleImple = ParticleSystemInterface::create();
 	}
-	void ParticleSystem::add(const std::vector<Particle>& particles)
+	void ParticleSystem::add(std::vector<Particle> particles)
 	{
 		m_ParticleImple->add(particles);
 	}

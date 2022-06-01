@@ -1,9 +1,6 @@
 #version 460 core
-layout (location = 0) in float inValue; 
-
-layout (location = 0) out float outValue; 
-
+layout (location = 0) in vec3 in_Position; 
 void main()
 {
-    outValue = inValue;
+    gl_Position = vec4(in_Position, 1.0);
 }

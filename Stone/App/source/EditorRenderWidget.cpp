@@ -47,14 +47,19 @@ namespace Stone
         PublicSingleton<Engine>::getInstance().logicalInitialize();
         QtImGui::initialize(this);
         Particle particle;
-        particle.v = 1.0;
+        particle.x = 1.0;
+        particle.y = 1.0;
+        particle.z = 1.0;
+
         Particle particle1;
-        particle1.v = 1.0;
+        particle1.x = 0.0;
+        particle1.y = 0.0;
+        particle1.z = 0.0;
+
         PublicSingleton<ParticleSystem>::getInstance().init();
         PublicSingleton<ParticleSystem>::getInstance().add(particle);
         PublicSingleton<ParticleSystem>::getInstance().add(particle1);
-        PublicSingleton<ParticleSystem>::getInstance().logictick();
-        PublicSingleton<ParticleSystem>::getInstance().logictick();
+        glPointSize(10);
 	}
 
 	void EditorRendererWidget::resizeGL(int w, int h)
@@ -70,7 +75,8 @@ namespace Stone
         PublicSingleton<Engine>::getInstance().logicalTick();
         PublicSingleton<Renderer>::getInstance().begin();
         PublicSingleton<Scene>::getInstance().renderTick();
-
+        PublicSingleton<ParticleSystem>::getInstance().logictick();
+        PublicSingleton<ParticleSystem>::getInstance().rendertick();
         PublicSingleton<Renderer>::getInstance().end(defaultFramebufferObject());
         renderImGui();
         update();

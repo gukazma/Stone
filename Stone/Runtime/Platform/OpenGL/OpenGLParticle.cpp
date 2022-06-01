@@ -11,11 +11,11 @@ namespace Stone
 	{
 		m_VBO1 = VertexBuffer::create(MAX_PARTICLE_NUM * sizeof(Particle));
 		m_VBO1->setLayout({
-			{ ShaderDataType::Float, "aV" },
+			{ ShaderDataType::Float3, "in_Position" },
 			});
 		m_VBO2 = VertexBuffer::create(MAX_PARTICLE_NUM * sizeof(Particle));
 		m_VBO2->setLayout({
-			{ ShaderDataType::Float, "aV" },
+			{ ShaderDataType::Float3, "in_Position" },
 			});
 
 		m_VAO1 = VertexArray::create();
@@ -52,6 +52,7 @@ namespace Stone
 		glFlush();
 
 		glGetQueryObjectuiv(m_Query, GL_QUERY_RESULT, &m_Primitives);
+#if 0
 		GLfloat feedback[5];
 		glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
 		for (size_t i = 0; i < 5; i++)
@@ -59,22 +60,25 @@ namespace Stone
 		    LOG_DEBUG("feedback: {0}", feedback[i]);
 		}
 		LOG_DEBUG("{0} primitives written!", m_Primitives);
+#endif
 		glDisable(GL_RASTERIZER_DISCARD);
+
 		m_SwapFlag = ! m_SwapFlag;
 	}
 	void OpenGLParticle::rendertick()
 	{
-		/*m_ParticleShader->bind();
+		m_ParticleShader->bind();
 		m_SwapFlag ? m_VAO1->bind() : m_VAO2->bind();
 		glDrawArrays(GL_POINTS, 0, m_Primitives);
-		m_SwapFlag != m_SwapFlag;*/
+		m_SwapFlag != m_SwapFlag;
 	}
 	void OpenGLParticle::add(const std::vector<Particle>& particles)
 	{
+		m_VBO1->setData(particles.data(), MAX_PARTICLE_NUM * sizeof(Particle));
 	}
-	void OpenGLParticle::add(const Particle particle)
+	void OpenGLParticle::add(const Particle& particle)
 	{
 		m_Particles.push_back(particle);
-		m_VBO1->setData(m_Particles.data(), MAX_PARTICLE_NUM * sizeof(Particle));
+		m_VBO1->setData((void*)m_Particles.data(), MAX_PARTICLE_NUM * sizeof(Particle));
 	}
 }

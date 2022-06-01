@@ -6,9 +6,5 @@ layout (binding = 0) uniform sampler2D simple;
 
 void main()
 {
-    FragColor = texture(simple, in_TexCoord);
-
-    if (FragColor.r == 0 && FragColor.g == 0 && FragColor.b == 0) {
-        discard;
-    }
+    FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 }

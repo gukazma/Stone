@@ -12,9 +12,9 @@ namespace Stone
 		virtual void logictick() override;
 		virtual void rendertick() override;
 		virtual void add(const std::vector<Particle>& particles) override;
-		virtual void add(const Particle particle) override;
+		virtual void add(const Particle& particle) override;
 	private:
-		bool m_SwapFlag = false;
+		bool m_SwapFlag = true;
 		bool m_IsFirst = true;
 		std::shared_ptr<VertexBuffer> m_VBO1, m_VBO2;
 		std::shared_ptr<VertexArray> m_VAO1, m_VAO2;

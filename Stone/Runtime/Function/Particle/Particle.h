@@ -3,12 +3,15 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <memory>
+#include <glm/glm.hpp>
 namespace Stone
 {
 #define MAX_PARTICLE_NUM 1000
 	struct Particle
 	{
-		float v;
+		float x;
+		float y;
+		float z;
 	};
 
 	class ParticleSystemInterface
@@ -18,7 +21,7 @@ namespace Stone
 		virtual void logictick() = 0;
 		virtual void rendertick() = 0;
 		virtual void add(const std::vector<Particle>& particles) = 0;
-		virtual void add(const Particle particle) = 0;
+		virtual void add(const Particle& particle) = 0;
 	};
 
 	class ParticleSystem : PublicSingleton<ParticleSystem>
@@ -26,7 +29,7 @@ namespace Stone
 	public:
 		void init();
 
-		void add(const std::vector<Particle>& particles);
+		void add(std::vector<Particle> particles);
 		void add(const Particle particle);
 		void logictick();
 		void rendertick();
