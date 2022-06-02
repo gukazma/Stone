@@ -11,13 +11,17 @@ namespace Stone
 	{
 		m_VBO1 = VertexBuffer::create(MAX_PARTICLE_NUM * sizeof(Particle));
 		m_VBO1->setLayout({
-			{ ShaderDataType::Float, "in_Type" },
-			{ ShaderDataType::Float3, "in_Position" }
+			{ ShaderDataType::Float,	"in_Type" },
+			{ ShaderDataType::Float3,	"in_Position" },
+			{ ShaderDataType::Float3,	"in_Velocity" },
+			{ ShaderDataType::Float,	"in_Age" }
 			});
 		m_VBO2 = VertexBuffer::create(MAX_PARTICLE_NUM * sizeof(Particle));
 		m_VBO2->setLayout({
-			{ ShaderDataType::Float, "in_Type" },
-			{ ShaderDataType::Float3, "in_Position" }
+			{ ShaderDataType::Float,	"in_Type" },
+			{ ShaderDataType::Float3,	"in_Position" },
+			{ ShaderDataType::Float3,	"in_Velocity" },
+			{ ShaderDataType::Float,	"in_Age" }
 			});
 
 		m_VAO1 = VertexArray::create();
@@ -32,8 +36,8 @@ namespace Stone
 		m_ParticleShader->attach(vershader);
 		auto geoshader = m_ParticleShader->create(particle_geom, sizeof(particle_geom), Shader::ShaderType::Geometry_Shader);
 		m_ParticleShader->attach(geoshader);
-		const GLchar* feedbackVaryings[] = { "out_Type", "out_Position" };
-		glTransformFeedbackVaryings(m_ParticleShader->getRenderID(), 2, feedbackVaryings, GL_INTERLEAVED_ATTRIBS);
+		const GLchar* feedbackVaryings[] = { "out_Type", "out_Position", "out_Velocity", "out_Age"};
+		glTransformFeedbackVaryings(m_ParticleShader->getRenderID(), 4, feedbackVaryings, GL_INTERLEAVED_ATTRIBS);
 		auto fragshader = m_ParticleShader->create(particle_frag, sizeof(particle_frag), Shader::ShaderType::Fragment_Shader);
 		m_ParticleShader->attach(fragshader);
 		m_ParticleShader->link();

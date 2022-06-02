@@ -7,10 +7,15 @@
 namespace Stone
 {
 #define MAX_PARTICLE_NUM 1000
+#define PARTICLE_TYPE_LAUNCHER 0.0f
+#define PARTICLE_TYPE_SHELL 1.0f
+#define PARTICLE_TYPE_SECONDARY_SHELL 2.0f
 	struct Particle
 	{
 		float Type = 0.0f;
 		glm::vec3 Position;
+		glm::vec3 Vel;
+		float LifetimeMillis;
 	};
 
 	class ParticleSystemInterface
