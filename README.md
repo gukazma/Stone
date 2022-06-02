@@ -7,6 +7,8 @@ git clone https://github.com/StoneHappy/Stone.git --recursive
 ```
 
 ## dependency
+Install VulkanSDK and add bin directory to environment path.
+
 Before building, install``qt5``和``qt-advanced-docking-system`` by ``vcpkg``
 ```bash
 vcpkg install qt5:x64-windows qt-advanced-docking-system:x64-windows
