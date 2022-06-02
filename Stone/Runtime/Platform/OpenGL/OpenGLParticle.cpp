@@ -78,6 +78,7 @@ namespace Stone
 		glDisable(GL_RASTERIZER_DISCARD);
 
 		m_SwapFlag = ! m_SwapFlag;
+		m_IsFirst = false;
 	}
 	void OpenGLParticle::rendertick()
 	{

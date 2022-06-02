@@ -49,7 +49,7 @@ namespace Stone
         Particle particle;
         particle.Type = PARTICLE_TYPE_LAUNCHER;
         particle.Position = { 0.0f, 0.0f, 1.0f };
-        particle.Vel = { 0.0f, 0.0001f, 0.0f };
+        particle.Vel = { 0.0f, 100000000.0f, 0.0f };
         particle.LifetimeMillis = 0.0f;
 
         PublicSingleton<ParticleSystem>::getInstance().init();
