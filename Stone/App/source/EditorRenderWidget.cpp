@@ -47,14 +47,11 @@ namespace Stone
         PublicSingleton<Engine>::getInstance().logicalInitialize();
         QtImGui::initialize(this);
         Particle particle;
-        particle.x = 1.0;
-        particle.y = 1.0;
-        particle.z = 1.0;
+        particle.Position = { 1.0, 0.0, 1.0 };
 
         Particle particle1;
-        particle1.x = 0.0;
-        particle1.y = 0.0;
-        particle1.z = 0.0;
+        particle1.Position = { 0.0, 0.0, 0.0 };
+
 
         PublicSingleton<ParticleSystem>::getInstance().init();
         PublicSingleton<ParticleSystem>::getInstance().add(particle);

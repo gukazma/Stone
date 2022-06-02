@@ -9,9 +9,7 @@ namespace Stone
 #define MAX_PARTICLE_NUM 1000
 	struct Particle
 	{
-		float x;
-		float y;
-		float z;
+		glm::vec3 Position;
 	};
 
 	class ParticleSystemInterface
