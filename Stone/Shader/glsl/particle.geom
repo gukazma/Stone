@@ -2,9 +2,11 @@
 layout(points) in;
 layout(points, max_vertices = 1) out;
 
-layout (location = 0) in vec3 in_Position[];
+layout (location = 0) in float  in_Type[]; 
+layout (location = 1) in vec3   in_Position[]; 
 
-layout (location = 0) out vec3 out_Position;
+layout (location = 0) out float out_Type;
+layout (location = 1) out vec3  out_Position;
 
 layout(std140, binding = 4) uniform RendererUniformBuffer
 {
@@ -24,6 +26,7 @@ void main()
     Pos.y += u_DeltaTime;
     gl_Position = u_ViewProjection * vec4(Pos, 1.0);
     out_Position = Pos;
+    out_Type = in_Type[0];
     EmitVertex();
 
     EndPrimitive();
