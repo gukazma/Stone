@@ -15,6 +15,7 @@ layout (location = 3) out float     out_Age;
 layout(std140, binding = 4) uniform RendererUniformBuffer
 {
 	float u_DeltaTime;
+	float u_GlobalTime;
 };
 
 layout(std140, binding = 0) uniform CameraBlock

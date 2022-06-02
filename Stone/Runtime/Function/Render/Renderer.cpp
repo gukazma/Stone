@@ -48,10 +48,9 @@ namespace Stone
 	void Renderer::updateDeltaTime()
 	{
 		float deltaTime = PublicSingleton<Engine>::getInstance().DeltaTime;
-		if (m_LastDeltaTime == deltaTime) return;
-		
-		m_LastDeltaTime = deltaTime;
-		m_TimeBuffer->setData(&m_LastDeltaTime, sizeof(float));
+		m_TimeData.DeltaTime = deltaTime;
+		m_TimeData.GlobalTime += deltaTime;
+		m_TimeBuffer->setData(&m_TimeData, sizeof(m_TimeData));
 		m_TimeBuffer->bind(4);
 	}
 

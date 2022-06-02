@@ -27,7 +27,11 @@ namespace Stone
 	class Renderer : public PublicSingleton<Renderer>
 	{
 	public:
-
+		struct TimeData
+		{
+			float DeltaTime = 0.0;
+			float GlobalTime = 0.0;
+		};
 		Renderer();
 
 		void initialize();
@@ -44,6 +48,7 @@ namespace Stone
 		void updateDeltaTime();
 		std::shared_ptr<UniformBuffer> m_TimeBuffer;
 		float m_LastDeltaTime = 0.0;
+		TimeData m_TimeData;
 		std::shared_ptr<RendererInterface> m_RendererImp;
 	};
 
