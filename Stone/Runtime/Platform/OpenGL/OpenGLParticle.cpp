@@ -9,6 +9,7 @@ namespace Stone
 {
 	OpenGLParticle::OpenGLParticle()
 	{
+		m_UniformBuffer = UniformBuffer::create();
 		m_VBO1 = VertexBuffer::create(MAX_PARTICLE_NUM * sizeof(Particle));
 		m_VBO1->setLayout({
 			{ ShaderDataType::Float,	"in_Type" },

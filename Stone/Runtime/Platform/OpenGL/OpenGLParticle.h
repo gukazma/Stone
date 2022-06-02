@@ -3,6 +3,7 @@
 #include <Function/Render/Buffer.h>
 #include <Function/Render/VertexArray.h>
 #include <Function/Render/Shader.h>
+#include <Function/Render/UniformBuffer.h>
 namespace Stone
 {
 	class OpenGLParticle : public ParticleSystemInterface
@@ -22,5 +23,6 @@ namespace Stone
 		uint32_t m_Query;
 		uint32_t m_Primitives;
 		std::shared_ptr<Shader> m_ParticleShader;
+		std::shared_ptr<UniformBuffer> m_UniformBuffer;
 	};
 }

@@ -109,3 +109,9 @@ if(NOT TARGET assimp)
     endif()
     
 endif()
+
+
+if(NOT TARGET PerlinNoise)
+    add_subdirectory(PerlinNoise)  
+    set_target_properties(PerlinNoise PROPERTIES FOLDER Vendors/PerlinNoise)  
+endif()
