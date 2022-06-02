@@ -30,7 +30,7 @@ namespace Stone
 		m_ParticleShader->attach(vershader);
 		auto geoshader = m_ParticleShader->create(particle_geom, sizeof(particle_geom), Shader::ShaderType::Geometry_Shader);
 		m_ParticleShader->attach(geoshader);
-		const GLchar* feedbackVaryings[] = { "outValue" };
+		const GLchar* feedbackVaryings[] = { "out_Position" };
 		glTransformFeedbackVaryings(m_ParticleShader->getRenderID(), 1, feedbackVaryings, GL_INTERLEAVED_ATTRIBS);
 		auto fragshader = m_ParticleShader->create(particle_frag, sizeof(particle_frag), Shader::ShaderType::Fragment_Shader);
 		m_ParticleShader->attach(fragshader);

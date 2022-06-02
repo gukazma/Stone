@@ -2,7 +2,9 @@
 layout(points) in;
 layout(points, max_vertices = 1) out;
 
-layout (location = 0) out vec3 outValue;
+layout (location = 0) in vec3 in_Position[];
+
+layout (location = 0) out vec3 out_Position;
 
 layout(std140, binding = 4) uniform RendererUniformBuffer
 {
@@ -18,10 +20,10 @@ layout(std140, binding = 0) uniform CameraBlock
 
 void main()
 {
-    vec3 Pos = gl_in[0].gl_Position.xyz;
+    vec3 Pos = in_Position[0];
     Pos.y += u_DeltaTime;
     gl_Position = u_ViewProjection * vec4(Pos, 1.0);
-    outValue = Pos;
+    out_Position = Pos;
     EmitVertex();
 
     EndPrimitive();
