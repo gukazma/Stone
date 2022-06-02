@@ -13,6 +13,7 @@ namespace Stone
 	{
 		initRandomTexture(1000);
 		m_UniformBuffer = UniformBuffer::create();
+		m_UniformBuffer->setData(&m_ParticleGlobalData, sizeof(m_ParticleGlobalData));
 		m_VBO1 = VertexBuffer::create(MAX_PARTICLE_NUM * sizeof(Particle));
 		m_VBO1->setLayout({
 			{ ShaderDataType::Float,	"in_Type" },
@@ -53,6 +54,7 @@ namespace Stone
 		glEnable(GL_RASTERIZER_DISCARD);
 		m_ParticleShader->setInt("randomTexture", 0);
 		bindRandomTexture(0);
+		m_UniformBuffer->bind(5);
 	 	m_SwapFlag ? m_VAO1->bind() : m_VAO2->bind();
 		m_SwapFlag ? m_VBO2->bindTransformFeedback(0) : m_VBO1->bindTransformFeedback(0);
 		glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, m_Query);

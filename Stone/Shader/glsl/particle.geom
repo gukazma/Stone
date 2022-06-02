@@ -20,6 +20,12 @@ layout(std140, binding = 4) uniform RendererUniformBuffer
 	float u_GlobalTime;
 };
 
+layout(std140, binding = 5) uniform ParticleUniformBuffer
+{
+	float LauncherLifetime;
+	float ShellLifetime;
+};  float SecondaryShellLifetime;
+
 layout(std140, binding = 0) uniform CameraBlock
 {
 	mat4 u_ViewProjection;

@@ -21,11 +21,19 @@ namespace Stone
 	class ParticleSystemInterface
 	{
 	public:
+		struct ParticleGlobalData
+		{
+			float LauncherLifetime = 100.0f;
+			float ShellLifetime = 10000.0f;
+			float SecondaryShellLifetime = 2500.0f;
+		};
 		static std::shared_ptr<ParticleSystemInterface> create();
 		virtual void logictick() = 0;
 		virtual void rendertick() = 0;
 		virtual void add(const std::vector<Particle>& particles) = 0;
 		virtual void add(const Particle& particle) = 0;
+
+		ParticleGlobalData m_ParticleGlobalData;
 	};
 
 	class ParticleSystem : PublicSingleton<ParticleSystem>
