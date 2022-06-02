@@ -25,6 +25,7 @@ target_link_libraries(${TARGET_NAME} PUBLIC
           stb
           Recast
           assimp
+          PerlinNoise
           )
 
 target_include_directories(

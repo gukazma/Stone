@@ -12,6 +12,8 @@ layout (location = 1) out vec3      out_Position;
 layout (location = 2) out vec3      out_Velocity; 
 layout (location = 3) out float     out_Age; 
 
+layout (binding = 0) uniform sampler1D randomTexture;
+
 layout(std140, binding = 4) uniform RendererUniformBuffer
 {
 	float u_DeltaTime;
@@ -24,11 +26,18 @@ layout(std140, binding = 0) uniform CameraBlock
 	vec3 u_CameraPos;
 };
 
+vec3 GetRandomDir(float TexCoord)                                                   
+{                                                                                   
+     vec3 Dir = texture(randomTexture, TexCoord).xyz;
+     Dir -= vec3(0.5, 0.5, 0.5);
+     return Dir;                                                                    
+}              
+
 
 void main()
 {
     vec3 Pos = in_Position[0];
-    Pos.y += u_DeltaTime;
+    Pos += GetRandomDir(u_GlobalTime/1000.0) * u_DeltaTime;
     gl_Position = u_ViewProjection * vec4(Pos, 1.0);
     out_Position = Pos;
     out_Type = in_Type[0];

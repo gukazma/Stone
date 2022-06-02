@@ -1,14 +1,17 @@
 #include "OpenGLParticle.h"
 #include <glad/glad.h>
+#include <PerlinNoise.hpp>
 #include "particle_vert.h"
 #include "particle_geom.h"
 #include "particle_frag.h"
 
+#include<cstdlib>
 #include "Core/Base/macro.h"
 namespace Stone
 {
 	OpenGLParticle::OpenGLParticle()
 	{
+		initRandomTexture(1000);
 		m_UniformBuffer = UniformBuffer::create();
 		m_VBO1 = VertexBuffer::create(MAX_PARTICLE_NUM * sizeof(Particle));
 		m_VBO1->setLayout({
@@ -48,6 +51,8 @@ namespace Stone
 		m_ParticleShader->bind();
 		m_Primitives = m_IsFirst ? m_Particles.size() : m_Primitives;
 		glEnable(GL_RASTERIZER_DISCARD);
+		m_ParticleShader->setInt("randomTexture", 0);
+		bindRandomTexture(0);
 	 	m_SwapFlag ? m_VAO1->bind() : m_VAO2->bind();
 		m_SwapFlag ? m_VBO2->bindTransformFeedback(0) : m_VBO1->bindTransformFeedback(0);
 		glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, m_Query);
@@ -87,5 +92,28 @@ namespace Stone
 	{
 		m_Particles.push_back(particle);
 		m_VBO1->setData((void*)m_Particles.data(), MAX_PARTICLE_NUM * sizeof(Particle));
+	}
+	void OpenGLParticle::initRandomTexture(uint32_t size)
+	{
+		glm::vec3* pRandomData = new glm::vec3[size];
+		for (unsigned int i = 0; i < size; i++) {
+			pRandomData[i].x = rand() / double(RAND_MAX);
+			pRandomData[i].y = rand() / double(RAND_MAX);
+			pRandomData[i].z = rand() / double(RAND_MAX);
+		}
+
+		glGenTextures(1, &m_RandomTextureId);
+		glBindTexture(GL_TEXTURE_1D, m_RandomTextureId);
+		glTexImage1D(GL_TEXTURE_1D, 0, GL_RGB, size, 0, GL_RGB, GL_FLOAT, pRandomData);
+		glTexParameterf(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+
+		delete[] pRandomData;
+	}
+	void OpenGLParticle::bindRandomTexture(uint32_t index)
+	{
+		glActiveTexture(GL_TEXTURE0 + index);
+		glBindTexture(GL_TEXTURE_1D, m_RandomTextureId);
 	}
 }
