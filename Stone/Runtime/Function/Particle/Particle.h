@@ -12,6 +12,10 @@ namespace Stone
 #define PARTICLE_TYPE_SECONDARY_SHELL 2.0f
 	struct Particle
 	{
+		Particle() = default;
+		Particle(float type, const glm::vec3& pos, const glm::vec3& vel, float lifetime)
+			: Type(type), Position(pos), Vel(vel), LifetimeMillis(lifetime)
+		{}
 		float Type = 0.0f;
 		glm::vec3 Position;
 		glm::vec3 Vel;

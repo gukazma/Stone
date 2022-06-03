@@ -49,6 +49,10 @@ namespace Stone
 	}
 	void OpenGLParticle::logictick()
 	{
+		if (m_Particles.size()==0)
+		{
+			return;
+		}
 		m_ParticleShader->bind();
 		m_Primitives = m_IsFirst ? m_Particles.size() : m_Primitives;
 		glEnable(GL_RASTERIZER_DISCARD);
@@ -82,6 +86,10 @@ namespace Stone
 	}
 	void OpenGLParticle::rendertick()
 	{
+		if (m_Particles.size() == 0)
+		{
+			return;
+		}
 		m_ParticleShader->bind();
 		m_SwapFlag ? m_VAO1->bind() : m_VAO2->bind();
 		glDrawArrays(GL_POINTS, 0, m_Primitives);

@@ -15,6 +15,8 @@
 #include "Core/Base/macro.h"
 #include <thread>
 #include <glad/glad.h>
+
+#include <Function/Particle/Particle.h>
 namespace Stone
 {
     VCGMesh* vcgmesh;
@@ -28,6 +30,7 @@ namespace Stone
     {
         PublicSingleton<EventSystem>::getInstance().processEvents();
         m_UISurface->tick();
+        PublicSingleton<ParticleSystem>::getInstance().logictick();
     }
     void Engine::renderTick(uint32_t defaultFramebufferid)
     { 
@@ -43,7 +46,7 @@ namespace Stone
     {
         PublicSingleton<Renderer>::getInstance().initialize();
         PublicSingleton<Scene>::getInstance().initialize();
-        //_texture = Texture2D::create("D:/datas/ply/tayv6_2K_Albedo.png");
+        PublicSingleton<ParticleSystem>::getInstance().init();
     }
     void Engine::logicalInitialize()
     {

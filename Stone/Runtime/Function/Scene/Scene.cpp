@@ -18,6 +18,8 @@
 #include <Resource/Data/Implement/Assimp/AssimpMesh.h>
 #include <Resource/Data/Implement/Assimp/AssimpNode.h>
 #include <Resource/Data/Interface/ModelPool.h>
+
+#include <Function/Particle/Particle.h>
 namespace Stone
 {
 	Scene::Scene()
@@ -44,6 +46,7 @@ namespace Stone
 			transform.bind();
 			AssimpNode::recusiveRender(model.getModel().get());
 		}
+		PublicSingleton<ParticleSystem>::getInstance().rendertick();
 	}
 	void Scene::initialize()
 	{

@@ -46,15 +46,7 @@ namespace Stone
         PublicSingleton<Engine>::getInstance().renderInitialize();
         PublicSingleton<Engine>::getInstance().logicalInitialize();
         QtImGui::initialize(this);
-        Particle particle;
-        particle.Type = PARTICLE_TYPE_LAUNCHER;
-        particle.Position = { 0.0f, 0.0f, 1.0f };
-        particle.Vel = { 0.0f, 100000000.0f, 0.0f };
-        particle.LifetimeMillis = 0.0f;
-
-        PublicSingleton<ParticleSystem>::getInstance().init();
-        PublicSingleton<ParticleSystem>::getInstance().add(particle);
-
+        //PublicSingleton<ParticleSystem>::getInstance().add({ PARTICLE_TYPE_LAUNCHER , {0.0f, 0.0f, 1.0f}, { 0.0f, 100000000.0f, 0.0f }, 0.0f });
         glPointSize(10);
 	}
 
@@ -71,8 +63,6 @@ namespace Stone
         PublicSingleton<Engine>::getInstance().logicalTick();
         PublicSingleton<Renderer>::getInstance().begin();
         PublicSingleton<Scene>::getInstance().renderTick();
-        PublicSingleton<ParticleSystem>::getInstance().logictick();
-        PublicSingleton<ParticleSystem>::getInstance().rendertick();
         PublicSingleton<Renderer>::getInstance().end(defaultFramebufferObject());
         renderImGui();
         update();
