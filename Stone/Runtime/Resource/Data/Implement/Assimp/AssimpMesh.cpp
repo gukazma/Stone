@@ -78,11 +78,14 @@ namespace Stone
 		if (m_VAO == nullptr || m_VBO == nullptr || m_EBO == nullptr)
 		{
 			m_VAO = VertexArray::create();
-			m_VBO = VertexBuffer::create((void*)m_V.data(), sizeof(float) * m_V.size() * 8);
+			m_VBO = VertexBuffer::create((void*)m_V.data(), sizeof(float) * m_V.size() * 17);
 			m_VBO->setLayout({
-			{ ShaderDataType::Float3, "aPos" },
-			{ ShaderDataType::Float3, "aNormal" },
-			{ ShaderDataType::Float2, "aTexCoord" }
+			{ ShaderDataType::Float3, "in_Position" },
+			{ ShaderDataType::Float3, "in_Normal" },
+			{ ShaderDataType::Float2, "in_TexCoord" },
+			{ ShaderDataType::Int4, "in_BoneIDs" },
+			{ ShaderDataType::Float4, "in_BoneWeights" },
+			{ ShaderDataType::Float, "in_VertexType" }
 				});
 			m_EBO = IndexBuffer::create(m_I.data(), m_I.size());
 			m_VAO->addVertexBuffer(m_VBO);

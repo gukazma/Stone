@@ -5,6 +5,8 @@
 #include <Function/Render/VertexArray.h>
 namespace Stone
 {
+#define VERTEX_ONLY 0
+#define VERTEX_WITH_BONE 1
 	struct Vertex
 	{
         float px;
@@ -15,6 +17,9 @@ namespace Stone
         float nz;
         float u;
         float v;
+        int32_t boneIDs[4] = { 0, 0, 0, 0 };
+        float weights[4] = { 0.0, 0.0, 0.0, 0.0 };
+        float type = VERTEX_ONLY;
 	};
 
     class Mesh
