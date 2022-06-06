@@ -35,6 +35,7 @@ namespace Stone
     {
         QString fileName = QFileDialog::getOpenFileName(this, tr("open file"), "", tr("obj model (*.obj)"
             ";;ply model (*.ply)"
+            ";;md5mesh model (*.md5mesh)"
         ));
         if (fileName.isEmpty()) return;
         m_RendererWidget->importMesh(fileName.toStdString());

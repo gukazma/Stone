@@ -20,6 +20,18 @@ layout(std140, binding = 2) uniform MeshBlock
 {
 	mat4 model;
 };
+
+// Bone
+#define VERTEX_ONLY 0
+#define VERTEX_WITH_BONE 1
+
+const int MAX_BONES = 100;
+layout(std140, binding = 4) uniform BoneBlock
+{
+	mat4 u_BoneTransforms[MAX_BONES];
+};
+
+
 void main()
 {
 	out_Pos = vec3(model * vec4(in_Position, 1.0));
