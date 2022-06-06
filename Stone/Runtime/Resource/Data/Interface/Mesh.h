@@ -7,6 +7,8 @@ namespace Stone
 {
 #define VERTEX_ONLY 0
 #define VERTEX_WITH_BONE 1
+
+#define MAX_BONENUM_PER_VERTEX 4
 	struct Vertex
 	{
         float px;

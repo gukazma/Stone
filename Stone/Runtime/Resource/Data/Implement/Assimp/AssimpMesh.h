@@ -12,7 +12,10 @@ namespace Stone
 	class AssimpMesh : public Mesh
 	{
 	public:
-
+		struct BoneIndexRefer
+		{
+			uint32_t currentBoneIndex = 0;
+		};
 		AssimpMesh(const aiMesh* mesh, const aiScene* scene, const aiNode* node, const std::string& filename);
 
 		std::vector<std::shared_ptr<AssimpMesh>> m_Children;
@@ -20,7 +23,9 @@ namespace Stone
 	private:
 		void loadMesh(const aiMesh* mesh);
 
-		void leadTexture();
+		void loadTexture();
+
+		void loadBone();
 
 		virtual void updateBuffer() override;
         
@@ -29,6 +34,6 @@ namespace Stone
 		const aiScene* m_Scene;
 		const aiNode* m_Node;
 		const aiMesh* m_Mesh;
-
+		BoneIndexRefer* m_BoneIndexRefer = nullptr;
 	};
 }
