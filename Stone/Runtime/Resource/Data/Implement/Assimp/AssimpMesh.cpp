@@ -8,16 +8,12 @@
 
 namespace Stone
 {
-	AssimpMesh::AssimpMesh(const aiMesh* mesh, const aiScene* scene, const aiNode* node, const std::string& filename)
-		: m_Scene(scene), m_Node(node), m_Mesh(mesh)
+	AssimpMesh::AssimpMesh(const aiMesh* mesh, const aiScene* scene, const AssimpScene* assmipscene)
 	{
-		m_Path = filename;
-		m_Directory = getDirectoryPath(filename);
-
-		LOG_DEBUG("director: {0}", m_Directory);
+		m_Path = assmipscene->m_Path;
+		m_Directory = assmipscene->m_Directory;
 		loadMesh(mesh);
-		loadTexture();
-		if (mesh->mNumBones > 0) loadBone();
+		loadTexture(mesh, scene);
 		updateBuffer();
 	}
 	void AssimpMesh::loadMesh(const aiMesh* mesh)
@@ -53,9 +49,9 @@ namespace Stone
 			m_I.push_back(face->mIndices[2]);
 		}
 	}
-	void AssimpMesh::loadTexture()
+	void AssimpMesh::loadTexture(const aiMesh* mesh, const aiScene* scene)
 	{
-		const aiMaterial* mt = m_Scene->mMaterials[m_Mesh->mMaterialIndex];
+		const aiMaterial* mt = scene->mMaterials[mesh->mMaterialIndex];
 
 		LOG_DEBUG("texture count: {0}", mt->GetTextureCount(aiTextureType_DIFFUSE))
 
@@ -70,24 +66,6 @@ namespace Stone
 		filename = m_Directory + '/' + filename;
 		LOG_DEBUG("texture filename: {0}", filename);
 		m_Texture = PublicSingleton<TexturePool>::getInstance().getTexture(filename);
-	}
-	void AssimpMesh::loadBone()
-	{
-		m_BoneIndexRefer = new BoneIndexRefer[m_V.size()];
-		for (size_t i = 0; i < m_Mesh->mNumBones; i++)
-		{
-			std::string boneName = m_Mesh->mBones[i]->mName.data;
-			for (size_t j = 0; j < m_Mesh->mBones[i]->mNumWeights; j++)
-			{
-				uint32_t VertexID = m_Mesh->mBones[i]->mWeights[j].mVertexId;
-				float weight = m_Mesh->mBones[i]->mWeights[j].mWeight;
-				int currentBoneIndex = m_BoneIndexRefer[VertexID].currentBoneIndex;
-				if (currentBoneIndex >= MAX_BONENUM_PER_VERTEX) continue;
-				m_V[VertexID].boneIDs[currentBoneIndex] = i;
-				m_V[VertexID].weights[currentBoneIndex] = weight;
-				m_BoneIndexRefer[VertexID].currentBoneIndex++;
-			}
-		}
 	}
 	void AssimpMesh::updateBuffer()
 	{

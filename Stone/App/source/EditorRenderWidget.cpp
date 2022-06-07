@@ -21,6 +21,7 @@
 #include <Resource/Components/Model.h>
 #include <Resource/Data/Implement/Assimp/AssimpMesh.h>
 #include <Resource/Data/Implement/Assimp/AssimpNode.h>
+#include <Resource/Data/Implement/Assimp/AssimpScene.h>
 #include <Resource/Data/Interface/ModelPool.h>
 
 #include <Function/Scene/Billboard.h>
@@ -153,7 +154,7 @@ namespace Stone
         auto lPos = filename.find_last_of("/");
         std::string meshName = filename.substr(lPos + 1, pointPos - 1 - lPos);
         auto testMesh = PublicSingletonInstance(Scene).CreateObject(meshName);
-        testMesh.AddComponent<ModelComponent<AssimpNode>>(filename);
+        testMesh.AddComponent<ModelComponent<AssimpScene>>(filename);
         testMesh.AddComponent<TransformComponent>();
     }
 }

@@ -20,6 +20,7 @@
 #include <Resource/Data/Interface/ModelPool.h>
 
 #include <Function/Particle/Particle.h>
+#include <Resource/Data/Implement/Assimp/AssimpScene.h>
 namespace Stone
 {
 	Scene::Scene()
@@ -39,12 +40,26 @@ namespace Stone
 			transform.bind();
 			PublicSingleton<Renderer>::getInstance().render(mesh.m_Mesh);
 		}
-		auto modelview = m_Registry.view<ModelComponent<AssimpNode>, TransformComponent>();
+
+		// assimp scene
+		auto modelview = m_Registry.view<ModelComponent<AssimpScene>, TransformComponent>();
 		for (auto entity : modelview)
 		{
-			auto& [model, transform] = modelview.get<ModelComponent<AssimpNode>, TransformComponent>(entity);
+			auto& [model, transform] = modelview.get<ModelComponent<AssimpScene>, TransformComponent>(entity);
 			transform.bind();
-			AssimpNode::recusiveRender(model.getModel().get());
+			for (size_t i = 0; i < model.getModel()->m_Meshs.size(); i++)
+			{
+				auto mesh = model.getModel()->m_Meshs[i];
+				if (mesh->m_Texture != nullptr)
+				{
+					mesh->m_Texture->bind(0);
+				}
+				else
+				{
+					PublicSingleton<TexturePool>::getInstance().getTexture("whiteTexture")->bind(0);
+				}
+				PublicSingleton<Renderer>::getInstance().render(mesh.get());
+			}
 		}
 		PublicSingleton<ParticleSystem>::getInstance().rendertick();
 	}
