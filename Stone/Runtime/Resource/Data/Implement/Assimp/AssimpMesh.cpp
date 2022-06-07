@@ -8,13 +8,16 @@
 
 namespace Stone
 {
-	AssimpMesh::AssimpMesh(const aiMesh* mesh, const aiScene* scene, const AssimpScene* assmipscene)
+	AssimpMesh::AssimpMesh(const aiMesh* mesh, const aiScene* scene, AssimpScene* assimpscene)
 	{
+		m_MeshIndex = assimpscene->m_Meshs.size();
+		LOG_DEBUG("Mesh index: {0}", m_MeshIndex);
 		m_MeshName = mesh->mName.C_Str();
-		m_Path = assmipscene->m_Path;
-		m_Directory = assmipscene->m_Directory;
+		m_Path = assimpscene->m_Path;
+		m_Directory = assimpscene->m_Directory;
 		loadMesh(mesh);
 		loadTexture(mesh, scene);
+		if(mesh->HasBones()) loadBone(mesh, assimpscene);
 		updateBuffer();
 	}
 	void AssimpMesh::loadMesh(const aiMesh* mesh)
@@ -66,6 +69,32 @@ namespace Stone
 		filename = m_Directory + '/' + filename;
 		LOG_DEBUG("texture filename: {0}", filename);
 		m_Texture = PublicSingleton<TexturePool>::getInstance().getTexture(filename);
+	}
+	void AssimpMesh::loadBone(const aiMesh* mesh, AssimpScene* assimpscene)
+	{
+		for (size_t i = 0; i < mesh->mNumBones; i++)
+		{
+			std::string boneName = mesh->mBones[i]->mName.C_Str();
+			uint32_t boneIndex = 0;
+			if (assimpscene->m_BoneMapping.find(boneName) == assimpscene->m_BoneMapping.end())
+			{
+				boneIndex = assimpscene->m_NumBone;
+				assimpscene->m_BoneMapping[boneName] = boneIndex;
+				assimpscene->m_NumBone++;
+			}
+			else
+			{
+				boneIndex = assimpscene->m_BoneMapping[boneName];
+			}
+
+			for (size_t j = 0; j < mesh->mBones[i]->mNumWeights; j++)
+			{
+				uint32_t vertexID = mesh->mBones[i]->mWeights[j].mVertexId;
+				float weight = mesh->mBones[i]->mWeights[j].mWeight;
+				m_V[vertexID].addBoneData(boneIndex, weight);
+				m_V[vertexID].type = VERTEX_WITH_BONE;
+			}
+		}
 	}
 	void AssimpMesh::updateBuffer()
 	{

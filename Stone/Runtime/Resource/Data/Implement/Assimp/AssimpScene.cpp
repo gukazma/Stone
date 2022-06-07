@@ -10,7 +10,6 @@ namespace Stone
 		m_Path = filename;
 		m_Directory = getDirectoryPath(filename);
 		const aiScene* scene = aiImportFile(filename.c_str(), aiProcessPreset_TargetRealtime_MaxQuality);
-
 		// assimp scene meshs
 		for (size_t i = 0; i < scene->mNumMeshes; i++)
 		{

@@ -19,9 +19,23 @@ namespace Stone
         float nz;
         float u;
         float v;
-        int32_t boneIDs[4] = { 0, 0, 0, 0 };
-        float weights[4] = { 0.0, 0.0, 0.0, 0.0 };
+        int32_t boneIDs[MAX_BONENUM_PER_VERTEX] = { 0 };
+        float weights[MAX_BONENUM_PER_VERTEX] = { 0.0 };
         float type = VERTEX_ONLY;
+
+        void addBoneData(uint32_t boneID, float weight)
+        {
+            for (size_t i = 0; i < MAX_BONENUM_PER_VERTEX; i++) {
+                if (weights[i] == 0.0) {
+                    boneIDs[i] = boneID;
+                    weights[i] = weight;
+                    return;
+                }
+            }
+
+            // should never get here - more bones than we have space for
+            assert(0);
+        }
 	};
 
     class Mesh

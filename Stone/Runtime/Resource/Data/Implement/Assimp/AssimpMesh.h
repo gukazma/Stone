@@ -17,7 +17,7 @@ namespace Stone
 		{
 			uint32_t currentBoneIndex = 0;
 		};
-		AssimpMesh(const aiMesh* mesh, const aiScene* scene, const AssimpScene* assmipscene);
+		AssimpMesh(const aiMesh* mesh, const aiScene* scene, AssimpScene* assimpscene);
 
 		std::vector<std::shared_ptr<AssimpMesh>> m_Children;
 		std::shared_ptr<Texture2D> m_Texture = nullptr;
@@ -26,10 +26,14 @@ namespace Stone
 
 		void loadTexture(const aiMesh* mesh, const aiScene* scene);
 
+		void loadBone(const aiMesh* mesh, AssimpScene* assimpscene);
+
 		virtual void updateBuffer() override;
         
         bool m_NeedUpdateBuffer = true;
 
 		BoneIndexRefer* m_BoneIndexRefer = nullptr;
+
+		uint32_t m_MeshIndex = 0;
 	};
 }

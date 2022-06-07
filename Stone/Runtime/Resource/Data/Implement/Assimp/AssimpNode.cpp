@@ -7,7 +7,7 @@
 #include "AssimpMesh.h"
 namespace Stone
 {
-	AssimpNode::AssimpNode(const AssimpNode* parentNode, const AssimpScene* assimpscene, const aiNode* node, const aiScene* scene)
+	AssimpNode::AssimpNode(const AssimpNode* parentNode, AssimpScene* assimpscene, const aiNode* node, const aiScene* scene)
 		: m_AssimpScene(assimpscene), m_Parent(parentNode), m_NodeName(node->mName.C_Str())
 	{
 		 loadNode(scene, node);
