@@ -10,7 +10,7 @@ namespace Stone
 		m_Path = filename;
 		m_Directory = getDirectoryPath(filename);
 		const aiScene* scene = aiImportFile(filename.c_str(), aiProcessPreset_TargetRealtime_MaxQuality);
-		// assimp scene meshs
+		// assimp scene meshes
 		for (size_t i = 0; i < scene->mNumMeshes; i++)
 		{
 			const aiMesh* mesh = scene->mMeshes[i];
@@ -21,6 +21,6 @@ namespace Stone
 		m_RootNode = std::make_shared<AssimpNode>(nullptr, this, scene->mRootNode, scene);
 
 		// release scene
-		aiReleaseImport(scene);
+		//aiReleaseImport(scene);
 	}
 }

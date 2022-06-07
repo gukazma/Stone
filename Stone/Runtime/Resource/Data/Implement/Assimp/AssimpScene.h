@@ -20,7 +20,8 @@ namespace Stone
 		std::vector<std::shared_ptr<AssimpMesh>> m_Meshs;
 
 		std::map<std::string, uint32_t> m_BoneMapping;
-		std::vector<glm::mat4> m_BoneInfo;
+		std::vector<glm::mat4> m_BoneTransform;
+		std::vector<glm::mat4> m_BoneOffset;
 		uint32_t m_NumBone;
 
 		std::string m_Path;

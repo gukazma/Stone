@@ -1,7 +1,7 @@
 #include "AssimpMesh.h"
 #include <assimp/cimport.h>
 #include <assimp/postprocess.h>
-
+#include <string>
 #include <Core/Base/macro.h>
 
 #include<vcg/complex/algorithms/create/platonic.h>
@@ -80,6 +80,11 @@ namespace Stone
 			{
 				boneIndex = assimpscene->m_NumBone;
 				assimpscene->m_BoneMapping[boneName] = boneIndex;
+				glm::mat4 boneOffset = glm::mat4(1);
+				memcpy(&boneOffset, &mesh->mBones[i]->mOffsetMatrix, sizeof(float) * 4 * 4);
+				LOG_DEBUG("boneOffset[0][1]: {0}", boneOffset[0][1]);
+				LOG_DEBUG("mesh->mBones[i]->mOffsetMatrix[0][1]: {0}", mesh->mBones[i]->mOffsetMatrix[0][1]);
+				assimpscene->m_BoneOffset.push_back(boneOffset);
 				assimpscene->m_NumBone++;
 			}
 			else
