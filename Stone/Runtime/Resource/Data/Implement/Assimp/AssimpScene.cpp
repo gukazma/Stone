@@ -22,6 +22,11 @@ namespace Stone
 		memcpy(&m_GlobalInverseTransform, &m_AssimpScene->mRootNode->mTransformation, sizeof(float) * 4 * 4);
 		m_GlobalInverseTransform = glm::inverse(m_GlobalInverseTransform);
 		m_RootNode = std::make_shared<AssimpNode>(nullptr, this, m_AssimpScene->mRootNode, m_AssimpScene);
+		m_BoneTransform.reserve(m_BoneOffset.size());
+		for (size_t i = 0; i < m_BoneOffset.size(); i++)
+		{
+			m_BoneTransform.push_back(glm::mat4(1));
+		}
 		glm::mat4 aaa;
 		readNodeHierarchy(0, m_AssimpScene->mRootNode, aaa);
 		// release scene
