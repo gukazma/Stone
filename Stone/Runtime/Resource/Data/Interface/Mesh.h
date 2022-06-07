@@ -43,6 +43,7 @@ namespace Stone
         std::vector<uint32_t> m_I;
         std::string m_Path;
         std::string m_Directory;
+        std::string m_MeshName;
 
         bool operator==(const Mesh& other) const { return other.m_Path == m_Path; }
     };

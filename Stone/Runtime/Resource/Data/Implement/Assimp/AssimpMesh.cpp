@@ -10,6 +10,7 @@ namespace Stone
 {
 	AssimpMesh::AssimpMesh(const aiMesh* mesh, const aiScene* scene, const AssimpScene* assmipscene)
 	{
+		m_MeshName = mesh->mName.C_Str();
 		m_Path = assmipscene->m_Path;
 		m_Directory = assmipscene->m_Directory;
 		loadMesh(mesh);
@@ -19,7 +20,6 @@ namespace Stone
 	void AssimpMesh::loadMesh(const aiMesh* mesh)
 	{
 		LOG_DEBUG("mesh->mVertices: {0}", mesh->mNumVertices);
-		//apply_material(sc->mMaterials[mesh->mMaterialIndex]);
 		for (size_t i = 0; i < mesh->mNumVertices; i++)
 		{
 			Vertex v;
